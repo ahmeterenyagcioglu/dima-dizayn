@@ -1,0 +1,5 @@
+# Bu klasörde statik dosyalar tutulur:
+# - favicon.ico  → Tarayıcı sekmesi ikonu (kök: /favicon.ico)
+# - logo.png / logo.svg → Site logosu
+# - images/ → Görseller (örn. /images/logo.png)
+# Next.js, public içindeki dosyaları kök URL'den sunar.
