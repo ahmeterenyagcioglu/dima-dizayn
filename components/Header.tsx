@@ -2,12 +2,14 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 const menuItems = [
   { href: '/', label: 'Ana Sayfa' },
+  { href: '/hizmetlerimiz', label: 'Hizmetlerimiz' },
   { href: '/galeri', label: 'Galeri' },
   { href: '/hakkimizda', label: 'Hakkımızda' },
   { href: '/iletisim', label: 'İletişim' },
@@ -15,9 +17,10 @@ const menuItems = [
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-gold-200/30 bg-dima-cream/95 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b border-gold/20 bg-white/80 backdrop-blur-md shadow-sm">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         {/* Logo / Marka */}
         <Link
@@ -39,16 +42,26 @@ export default function Header() {
 
         {/* Masaüstü menü */}
         <ul className="hidden items-center gap-8 md:flex">
-          {menuItems.map((item) => (
-            <li key={item.href}>
-              <Link
-                href={item.href}
-                className="link-gold text-sm font-medium text-gray-700 transition-colors hover:text-gold-600"
-              >
-                {item.label}
-              </Link>
-            </li>
-          ))}
+          {menuItems.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className={`relative text-sm font-medium transition-colors hover:text-gold-600 ${
+                    isActive 
+                      ? 'text-gold-600' 
+                      : 'text-gray-700'
+                  }`}
+                >
+                  {item.label}
+                  {isActive && (
+                    <span className="absolute -bottom-1 left-0 right-0 h-px bg-gold-600"></span>
+                  )}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
 
         {/* Mobil menü butonu */}
@@ -70,25 +83,32 @@ export default function Header() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25 }}
-            className="overflow-hidden border-t border-gold-200/30 bg-dima-cream md:hidden"
+            className="overflow-hidden border-t border-gold/20 bg-white/80 backdrop-blur-md md:hidden"
           >
             <ul className="flex flex-col gap-0 px-4 py-4">
-              {menuItems.map((item, i) => (
-                <motion.li
-                  key={item.href}
-                  initial={{ opacity: 0, x: -12 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.05 }}
-                >
-                  <Link
-                    href={item.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block rounded-lg px-4 py-3 text-base font-medium text-gray-700 transition-colors hover:bg-gold-50 hover:text-gold-600"
+              {menuItems.map((item, i) => {
+                const isActive = pathname === item.href;
+                return (
+                  <motion.li
+                    key={item.href}
+                    initial={{ opacity: 0, x: -12 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.05 }}
                   >
-                    {item.label}
-                  </Link>
-                </motion.li>
-              ))}
+                    <Link
+                      href={item.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`block rounded-lg px-4 py-3 text-base font-medium transition-colors hover:bg-gold-50 hover:text-gold-600 ${
+                        isActive 
+                          ? 'text-gold-600 bg-gold-50' 
+                          : 'text-gray-700'
+                      }`}
+                    >
+                      {item.label}
+                    </Link>
+                  </motion.li>
+                );
+              })}
             </ul>
           </motion.div>
         )}

@@ -18,7 +18,10 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'Dima Dizayn & Organizasyon',
+  title: {
+    default: 'Dima Dizayn & Organizasyon',
+    template: 'Dima Dizayn & Organizasyon - %s'
+  },
   description:
     'Düğün, nişan, kına ve sünnet organizasyonu, fotoğraf-video ve müzik hizmetleri.',
   icons: {

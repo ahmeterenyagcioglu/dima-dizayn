@@ -11,25 +11,45 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/galeri/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/galeri/page.js"
-    ],
     "/hakkimizda/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/hakkimizda/page.js"
+    ],
+    "/hakkimizda/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/hakkimizda/layout.js"
     ],
     "/iletisim/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/iletisim/page.js"
     ],
-    "/_not-found/page": [
+    "/iletisim/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/_not-found/page.js"
+      "static/chunks/app/iletisim/layout.js"
+    ],
+    "/hizmetlerimiz/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/hizmetlerimiz/page.js"
+    ],
+    "/hizmetlerimiz/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/hizmetlerimiz/layout.js"
+    ],
+    "/galeri/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/galeri/page.js"
+    ],
+    "/galeri/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/galeri/layout.js"
     ]
   }
 }

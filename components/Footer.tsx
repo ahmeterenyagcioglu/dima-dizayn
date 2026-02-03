@@ -68,9 +68,14 @@ export default function Footer() {
               <p className="text-xs font-medium uppercase tracking-wider text-gold-600">
                 Adres
               </p>
-              <p className="mt-1 text-sm text-gray-600">
-                Ertuğrul, İsmet İnönü Cd. No:36, 35700 Bergama/İzmir
-              </p>
+              <a
+                href="https://maps.app.goo.gl/fgZw6DHVeDsscXWz5"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-1 inline-block text-sm text-gray-600 transition-colors hover:text-gold-600 hover:underline"
+              >
+                Ertuğrul Mah., İsmet İnönü Cd., No:36, 35700, Bergama/İzmir
+              </a>
             </div>
             <div>
               <p className="text-xs font-medium uppercase tracking-wider text-gold-600">

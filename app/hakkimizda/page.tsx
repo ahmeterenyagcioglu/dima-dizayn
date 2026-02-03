@@ -1,7 +1,54 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
+import { Quote, Star } from 'lucide-react';
 
 export default function HakkimizdaPage() {
+  // Müşteri yorumları
+  const comments = [
+    {
+      name: "Emine Ü.",
+      comment: "Hersey cok güzeldi hayalimdeki herseyi eksiksiz yaptıkları icin cok teşekkür ederim. Secil hanımın güler yüzü ve samimiyeti icin ayrica teşekkür ediyorum."
+    },
+    {
+      name: "Önder H.",
+      comment: "Çok memnun kaldık, güvenirlik ve kalite harikaydı,her zaman ilk seçeneğimiz oldunuz şimdiden teşekkürler."
+    },
+    {
+      name: "Egehan Ü.",
+      comment: "Ömer beye ilgisi alakası içşn teşekkür ediyoruz. Hayalimizdeki organizasyon ve müzik hizmetini bize sağladıkları için teşekkürler. Çok memnun kaldık tavsiye ederiz."
+    },
+    {
+      name: "Erbiy A.",
+      comment: "Yaptığınız organizasyon mükemmel ötesi emeğinize sağlık gelen misafirlerimizde ayriyetten teşekkür ediyor başarılarınızın devamını dilerim."
+    },
+    {
+      name: "Şevval D.",
+      comment: "Seçil Hanım bizimle çok iyi ilgilendi. Hayalimdeki konsepti hayata geçirdi. Her şey için teşekkür ederim."
+    },
+    {
+      name: "Gamze B.",
+      comment: "Tesekkür ederiz yaptığınız organizasyon muhteşemdi"
+    },
+    {
+      name: "Mehtap S.",
+      comment: "Gercekten muhtesemsiniz🙏🙏 …"
+    },
+    {
+      name: "Ayşe Ü.",
+      comment: "Tüm organizyonlarını çok beğeniyorum.Güler yüzlü hizmet ve anlayışlı tutumlularından dolayı çok teşekkür ederim."
+    },
+    {
+      name: "Dinçer A.",
+      comment: "Kaliteye ve güven e önem veriliyor teşekkürler iyi çalışmalar"
+    },
+    {
+      name: "Hakan B.",
+      comment: "Herşey için çok teşekkür ederim güzel organizasyondu."
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-dima-cream/50">
       {/* Hero Section */}
@@ -9,7 +56,7 @@ export default function HakkimizdaPage() {
         {/* Arka plan görseli */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url('/about-hero.jpg')" }}
+          style={{ backgroundImage: "url('/about-hero.webp')" }}
         />
         {/* Koyu overlay */}
         <div className="absolute inset-0 bg-black/60" />
@@ -36,7 +83,7 @@ export default function HakkimizdaPage() {
           <div className="relative">
             <div className="relative aspect-[3/4] overflow-hidden rounded-xl border border-gold-200/40 shadow-lg">
               <Image
-                src="/about-vertical.jpg"
+                src="/about-vertical.webp"
                 alt="Dima Dizayn - Organizasyon Hazırlığı"
                 fill
                 className="object-cover"
@@ -51,7 +98,7 @@ export default function HakkimizdaPage() {
               Vizyonumuz
             </h2>
             <p className="mt-6 text-lg leading-relaxed text-dima-grey">
-              2010 yılından beri İzmir Bergama'da özel günlerinizi unutulmaz anılara dönüştürüyoruz. 
+              2021 yılından beri İzmir Bergama'da özel günlerinizi unutulmaz anılara dönüştürüyoruz. 
               Düğün, nişan, kına ve sünnet gibi en değerli anlarınızda, hayallerinizdeki organizasyonu 
               profesyonel ekibimizle hayata geçiriyoruz.
             </p>
@@ -120,6 +167,100 @@ export default function HakkimizdaPage() {
         </div>
       </section>
 
+      {/* Müşterilerimizden Notlar */}
+      <section className="border-t border-gold-200/30 bg-white py-16 sm:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <h2 className="font-serif text-3xl font-semibold text-center text-gray-800 sm:text-4xl">
+            Müşterilerimizden Notlar
+          </h2>
+          
+          {/* Marquee Slider */}
+          <div className="mt-12 overflow-hidden">
+            <div className="flex animate-marquee space-x-6">
+              {/* İlk set */}
+              {comments.map((comment, index) => (
+                <div key={index} className="flex-shrink-0 w-80 bg-gray-50 rounded-lg p-6 border border-gold-200/40 shadow-sm flex flex-col h-full justify-between">
+                  <div className="flex items-start space-x-3 flex-1">
+                    {/* Avatar */}
+                    <div className="flex-shrink-0 w-12 h-12 bg-gold-100 rounded-full flex items-center justify-center">
+                      <span className="text-gold-600 font-semibold text-lg">
+                        {comment.name.charAt(0)}
+                      </span>
+                    </div>
+                    
+                    {/* İçerik */}
+                    <div className="flex-1 min-w-0 flex flex-col">
+                      {/* Quote Icon */}
+                      <Quote className="h-5 w-5 text-gold-400 mb-2" />
+                      
+                      {/* Yorum */}
+                      <p className="text-sm text-gray-700 leading-relaxed flex-1">
+                        "{comment.comment}"
+                      </p>
+                      
+                      {/* Footer Alanı - Name & Stars */}
+                      <div className="mt-auto pt-4">
+                        {/* İsim */}
+                        <p className="text-sm font-medium text-gray-900 mb-2">
+                          {comment.name}
+                        </p>
+                        
+                        {/* 5 Yıldız */}
+                        <div className="flex">
+                          {[...Array(5)].map((_, i) => (
+                            <Star key={i} className="h-4 w-4 text-gold-400 fill-current" />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              
+              {/* İkinci set (sonsuz döngü için) */}
+              {comments.map((comment, index) => (
+                <div key={`duplicate-${index}`} className="flex-shrink-0 w-80 bg-gray-50 rounded-lg p-6 border border-gold-200/40 shadow-sm flex flex-col h-full justify-between">
+                  <div className="flex items-start space-x-3 flex-1">
+                    {/* Avatar */}
+                    <div className="flex-shrink-0 w-12 h-12 bg-gold-100 rounded-full flex items-center justify-center">
+                      <span className="text-gold-600 font-semibold text-lg">
+                        {comment.name.charAt(0)}
+                      </span>
+                    </div>
+                    
+                    {/* İçerik */}
+                    <div className="flex-1 min-w-0 flex flex-col">
+                      {/* Quote Icon */}
+                      <Quote className="h-5 w-5 text-gold-400 mb-2" />
+                      
+                      {/* Yorum */}
+                      <p className="text-sm text-gray-700 leading-relaxed flex-1">
+                        "{comment.comment}"
+                      </p>
+                      
+                      {/* Footer Alanı - Name & Stars */}
+                      <div className="mt-auto pt-4">
+                        {/* İsim */}
+                        <p className="text-sm font-medium text-gray-900 mb-2">
+                          {comment.name}
+                        </p>
+                        
+                        {/* 5 Yıldız */}
+                        <div className="flex">
+                          {[...Array(5)].map((_, i) => (
+                            <Star key={i} className="h-4 w-4 text-gold-400 fill-current" />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="border-t border-gold-200/30 bg-dima-cream/50 py-16 sm:py-20">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
@@ -139,6 +280,26 @@ export default function HakkimizdaPage() {
           </div>
         </div>
       </section>
+
+      {/* CSS for Marquee Animation */}
+      <style jsx>{`
+        @keyframes marquee {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+        
+        .animate-marquee {
+          animation: marquee 30s linear infinite;
+        }
+        
+        .animate-marquee:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
     </div>
   );
 }

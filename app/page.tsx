@@ -16,7 +16,7 @@ export default function HomePage() {
         {/* Arka plan görseli - public/hero.jpg ekleyin */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url('/hero.jpg')" }}
+          style={{ backgroundImage: "url('/hero.webp')" }}
           aria-hidden
         />
         {/* Koyu overlay - metnin okunabilirliği */}

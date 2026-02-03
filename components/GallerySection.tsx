@@ -12,7 +12,7 @@ export default function GallerySection() {
           Mutlu Anlardan Kareler
         </h2>
         <p className="mt-3 text-center text-sm text-dima-grey max-w-2xl mx-auto">
-          Organizasyonlarımızdan seçme anlar. Galeri sayfasına gitmek için tıklayın.
+          Verdiğimiz hizmetlerden seçme anlar. Galeri sayfasına gitmek için fotoğrafların üzerine tıklayın.
         </p>
         <div className="mt-12 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:gap-5">
           {GALLERY_IDS.map((i) => (
@@ -24,7 +24,7 @@ export default function GallerySection() {
             >
               <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-500 ease-out group-hover:scale-110"
-                style={{ backgroundImage: `url('/gallery/${i}.jpg')` }}
+                style={{ backgroundImage: `url('/gallery/${i}.webp')` }}
               />
             </Link>
           ))}
