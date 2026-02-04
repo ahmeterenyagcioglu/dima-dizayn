@@ -25,7 +25,7 @@ export default function Header() {
         {/* Logo / Marka */}
         <Link
           href="/"
-          className="group flex items-center gap-3 font-serif text-xl font-semibold tracking-tight text-gray-800 transition-colors hover:text-gold-600 sm:text-2xl"
+          className="group flex items-center gap-2 sm:gap-3 font-serif text-xl font-semibold tracking-tight text-gray-800 transition-colors hover:text-gold-600 sm:text-2xl whitespace-nowrap"
         >
           <Image
             src="/logo.svg"
@@ -35,9 +35,11 @@ export default function Header() {
             className="h-8 w-auto sm:h-10"
             priority
           />
-          <span className="hidden sm:inline">Dima Dizayn</span>
-          <span className="hidden sm:inline font-normal text-gold-600">&</span>
-          <span className="hidden sm:inline">Organizasyon</span>
+          <div className="flex items-center whitespace-nowrap">
+            <span className="text-[13px] font-medium sm:text-xl md:text-2xl">Dima Dizayn</span>
+            <span className="text-[13px] font-medium sm:text-xl md:text-2xl font-normal text-gold-600 sm:mx-1">&</span>
+            <span className="text-[13px] font-medium sm:text-xl md:text-2xl">Organizasyon</span>
+          </div>
         </Link>
 
         {/* Masaüstü menü */}

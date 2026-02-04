@@ -61,6 +61,7 @@ export default function GaleriPage() {
   const [selectedPhoto, setSelectedPhoto] = useState<{ slug: string; id: number } | null>(null);
   const [aktifKategori, setAktifKategori] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<'all' | 'konseptler' | 'hizmetler'>('all');
 
   // Kategori Bazlı Shuffle - sadece kategori değişince çalışır
   const shuffledPhotosByCategory = useMemo(() => {
@@ -73,12 +74,28 @@ export default function GaleriPage() {
     });
     
     return result;
-  }, []); // Boş dependency - sadece sayfa ilk yüklendiğinde çalışır
+  }, []);
 
   // Kategori fotoğraflarını al (karıştırılmış)
   const getKategoriFotolari = (slug: string, limit: number) => {
     const shuffled = shuffledPhotosByCategory[slug] || [];
     return shuffled.slice(0, limit);
+  };
+
+  // Tab'e göre kategorileri filtrele
+  const getFilteredCategories = () => {
+    if (activeTab === 'all') return KATEGORILER;
+    if (activeTab === 'konseptler') {
+      return KATEGORILER.filter(k => 
+        k.slug.includes('kina') || k.slug.includes('nisan') || k.slug.includes('dugun') || k.slug.includes('sunnet') || k.slug.includes('dogum')
+      );
+    }
+    if (activeTab === 'hizmetler') {
+      return KATEGORILER.filter(k => 
+        !k.slug.includes('kina') && !k.slug.includes('nisan') && !k.slug.includes('dugun') && !k.slug.includes('sunnet') && !k.slug.includes('dogum')
+      );
+    }
+    return KATEGORILER;
   };
 
   // Modal aç
@@ -134,25 +151,61 @@ export default function GaleriPage() {
   return (
     <div className="min-h-screen bg-dima-cream/50">
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-5 sm:py-14 md:px-6 md:py-16 lg:px-8">
-        <h1 className="font-serif text-2xl font-semibold text-gray-800 text-center sm:text-3xl md:text-4xl">
-          Galeri
-        </h1>
-        <p className="mt-2 text-center text-sm text-dima-grey max-w-2xl mx-auto sm:mt-3 sm:text-base">
-          Konsept ve hizmetlerimize göre kategorize edilmiş kareler. Büyütmek için tıklayın.
-        </p>
-
-        {/* Konseptler */}
-        <section className="mt-8 sm:mt-10 md:mt-12">
-          <p className="text-xs font-medium uppercase tracking-wider text-gold-600 mb-1 sm:mb-2">
-            Konseptler
+        {/* Ana Başlık */}
+        <div className="text-center mb-8">
+          <h1 className="font-serif text-4xl font-semibold text-gray-800 text-center sm:text-5xl md:text-6xl">
+            Galeri
+          </h1>
+          <p className="mt-4 text-lg text-dima-grey max-w-2xl mx-auto">
+            Özel anlarınızdan seçkin kareler
           </p>
-          {KATEGORILER.filter(k => k.slug.includes('kina') || k.slug.includes('nisan') || k.slug.includes('dugun') || k.slug.includes('sunnet') || k.slug.includes('dogum')).map(({ slug, title, limit }) => {
+        </div>
+
+        {/* Modern Tab Sistemi */}
+        <div className="flex justify-center mb-12">
+          <div className="inline-flex bg-white rounded-lg shadow-sm border border-gray-200 p-1">
+            <button
+              onClick={() => setActiveTab('all')}
+              className={`px-6 py-3 rounded-md font-medium text-sm transition-all duration-200 ${
+                activeTab === 'all'
+                  ? 'bg-gold-500 text-white shadow-md'
+                  : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+              }`}
+            >
+              Tüm Kareler
+            </button>
+            <button
+              onClick={() => setActiveTab('konseptler')}
+              className={`px-6 py-3 rounded-md font-medium text-sm transition-all duration-200 ${
+                activeTab === 'konseptler'
+                  ? 'bg-gold-500 text-white shadow-md'
+                  : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+              }`}
+            >
+              Konsept Kurulumları
+            </button>
+            <button
+              onClick={() => setActiveTab('hizmetler')}
+              className={`px-6 py-3 rounded-md font-medium text-sm transition-all duration-200 ${
+                activeTab === 'hizmetler'
+                  ? 'bg-gold-500 text-white shadow-md'
+                  : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+              }`}
+            >
+              Ek Hizmetlerimiz
+            </button>
+          </div>
+        </div>
+
+        {/* Kategori Grid */}
+        <div className="grid gap-8 sm:gap-10 md:gap-12">
+          {getFilteredCategories().map(({ slug, title, limit }) => {
             const fotolar = getKategoriFotolari(slug, limit);
             if (fotolar.length === 0) return null;
             
             return (
-              <div key={slug} className="mt-12 first:mt-0 sm:mt-14 md:mt-16">
-                <h2 className="font-serif text-lg font-semibold text-gray-800 sm:text-xl md:text-2xl border-b border-gold-200/50 pb-2">
+              <div key={slug} className="animate-fade-in">
+                <h2 className="font-serif text-2xl font-semibold text-gray-800 sm:text-3xl border-b border-gold-200/50 pb-2">
                   {title}
                 </h2>
                 <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-3 sm:mt-5 md:grid-cols-3 md:gap-4 lg:gap-5">
@@ -174,42 +227,7 @@ export default function GaleriPage() {
               </div>
             );
           })}
-        </section>
-
-        {/* Hizmetler */}
-        <section className="mt-10 pt-8 border-t border-gold-200/30 sm:mt-14 sm:pt-10 md:mt-16 md:pt-12">
-          <p className="text-xs font-medium uppercase tracking-wider text-gold-600 mb-1 sm:mb-2">
-            Hizmetler
-          </p>
-          {KATEGORILER.filter(k => !k.slug.includes('kina') && !k.slug.includes('nisan') && !k.slug.includes('dugun') && !k.slug.includes('sunnet') && !k.slug.includes('dogum')).map(({ slug, title, limit }) => {
-            const fotolar = getKategoriFotolari(slug, limit);
-            if (fotolar.length === 0) return null;
-            
-            return (
-              <div key={slug} className="mt-12 first:mt-0 sm:mt-14 md:mt-16">
-                <h2 className="font-serif text-lg font-semibold text-gray-800 sm:text-xl md:text-2xl border-b border-gold-200/50 pb-2">
-                  {title}
-                </h2>
-                <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-3 sm:mt-5 md:grid-cols-3 md:gap-4 lg:gap-5">
-                  {fotolar.map((foto) => (
-                    <button
-                      key={`${foto.slug}-${foto.id}`}
-                      type="button"
-                      onClick={() => openModal(foto.slug, foto.id)}
-                      className="group relative aspect-[4/3] min-h-[100px] overflow-hidden rounded-lg border border-gold-200/40 bg-gray-200 shadow-sm text-left focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 active:scale-[0.98] sm:min-h-0 sm:rounded-xl sm:shadow-md"
-                      aria-label={`${title} görseli ${foto.id} - büyütmek için tıklayın`}
-                    >
-                      <div
-                        className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-300 ease-out group-hover:scale-110 group-active:scale-105"
-                        style={{ backgroundImage: `url('${getImageUrl(foto.slug, foto.id)}')` }}
-                      />
-                    </button>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-        </section>
+        </div>
       </div>
 
       {/* Modal */}
@@ -225,7 +243,7 @@ export default function GaleriPage() {
             {/* Kapat butonu */}
             <button
               onClick={closeModal}
-              className="absolute right-4 top-4 z-20 rounded-full bg-black/50 p-2 text-white hover:bg-black/70 backdrop-blur-sm transition-colors"
+              className="absolute right-4 top-4 z-20 rounded-full bg-black/50 p-2 text-white hover:bg-black/70"
             >
               <X className="h-6 w-6" />
             </button>
@@ -238,7 +256,7 @@ export default function GaleriPage() {
                     e.stopPropagation();
                     navigatePhoto(-1);
                   }}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 z-20 rounded-full bg-black/50 p-3 text-white hover:bg-black/70 backdrop-blur-sm transition-colors"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 z-20 rounded-full bg-black/50 p-3 text-white hover:bg-black/70"
                 >
                   <ChevronLeft className="h-6 w-6" />
                 </button>
@@ -249,7 +267,7 @@ export default function GaleriPage() {
                     e.stopPropagation();
                     navigatePhoto(1);
                   }}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 z-20 rounded-full bg-black/50 p-3 text-white hover:bg-black/70 backdrop-blur-sm transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 z-20 rounded-full bg-black/50 p-3 text-white hover:bg-black/70"
                 >
                   <ChevronRight className="h-6 w-6" />
                 </button>
@@ -273,6 +291,24 @@ export default function GaleriPage() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Fade-in animasyonu */}
+      <style jsx>{`
+        @keyframes fade-in {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .animate-fade-in {
+          animation: fade-in 0.5s ease-out;
+        }
+      `}</style>
     </div>
   );
 }
