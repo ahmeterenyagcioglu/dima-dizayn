@@ -22,26 +22,6 @@
       "static/chunks/main-app.js",
       "static/chunks/app/hakkimizda/layout.js"
     ],
-    "/iletisim/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/iletisim/page.js"
-    ],
-    "/iletisim/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/iletisim/layout.js"
-    ],
-    "/hizmetlerimiz/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/hizmetlerimiz/page.js"
-    ],
-    "/hizmetlerimiz/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/hizmetlerimiz/layout.js"
-    ],
     "/galeri/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",

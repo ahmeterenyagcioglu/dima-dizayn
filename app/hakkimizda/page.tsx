@@ -188,6 +188,7 @@ export default function HakkimizdaPage() {
               grabCursor={true}
               simulateTouch={true}
               allowTouchMove={true}
+              centeredSlides={false}
               navigation={true}
               pagination={{
                 clickable: true,
@@ -319,8 +320,8 @@ export default function HakkimizdaPage() {
         }
 
         .testimonials-swiper .swiper-slide {
-          opacity: 0.7;
-          transition: opacity 0.3s ease;
+          opacity: 1;
+          transition: none;
         }
 
         .testimonials-swiper .swiper-slide-active {

@@ -1,7 +1,5 @@
 {
   "/page": "app/page.js",
   "/hakkimizda/page": "app/hakkimizda/page.js",
-  "/hizmetlerimiz/page": "app/hizmetlerimiz/page.js",
-  "/galeri/page": "app/galeri/page.js",
-  "/iletisim/page": "app/iletisim/page.js"
+  "/galeri/page": "app/galeri/page.js"
 }

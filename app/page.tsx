@@ -26,9 +26,9 @@ export default function HomePage() {
 
         {/* Slogan */}
         <div className="relative z-10 mx-auto max-w-5xl px-4 py-20 text-center sm:px-6 lg:px-8">
-          <p className="font-serif text-3xl font-light tracking-wide text-white drop-shadow-lg sm:text-4xl md:text-5xl lg:text-6xl">
+          <h1 className="font-serif text-3xl font-light tracking-wide text-white drop-shadow-lg sm:text-4xl md:text-5xl lg:text-6xl">
             Dima Dizayn ile Hayallerinizi Organize Ediyoruz
-          </p>
+          </h1>
           <p className="mt-6 text-sm font-medium uppercase tracking-[0.3em] text-gold-300/90 sm:text-base">
             Düğün · Nişan · Kına · Sünnet
           </p>
