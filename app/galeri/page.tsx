@@ -62,9 +62,10 @@ export default function GaleriPage() {
   const [aktifKategori, setAktifKategori] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'all' | 'konseptler' | 'hizmetler'>('all');
+  const [shuffledPhotosByCategory, setShuffledPhotosByCategory] = useState<{ [key: string]: { slug: string; id: number }[] }>({});
 
-  // Kategori Bazlı Shuffle - sadece kategori değişince çalışır
-  const shuffledPhotosByCategory = useMemo(() => {
+  // Sayfa yüklendiğinde fotoğrafları karıştır
+  useEffect(() => {
     const result: { [key: string]: { slug: string; id: number }[] } = {};
     
     KATEGORILER.forEach(({ slug }) => {
@@ -73,10 +74,9 @@ export default function GaleriPage() {
       result[slug] = [...categoryPhotos].sort(() => Math.random() - 0.5);
     });
     
-    return result;
-  }, []);
+    setShuffledPhotosByCategory(result);
+  }, []); // Boş dependency array - sadece sayfa ilk yüklendiğinde çalışırılmış)
 
-  // Kategori fotoğraflarını al (karıştırılmış)
   const getKategoriFotolari = (slug: string, limit: number) => {
     const shuffled = shuffledPhotosByCategory[slug] || [];
     return shuffled.slice(0, limit);
@@ -239,7 +239,7 @@ export default function GaleriPage() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
-            onClick={closeModal}
+            onClick={closeModal} // Modal dışına tıklandığında kapanır
           >
             {/* Kapat butonu */}
             <button

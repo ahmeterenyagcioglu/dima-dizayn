@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { useState, useEffect } from 'react';
 import { Quote, Star } from 'lucide-react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper/modules';
@@ -11,7 +12,7 @@ import 'swiper/css/navigation';
 
 export default function HakkimizdaPage() {
   // Müşteri yorumları
-  const comments = [
+  const [comments, setComments] = useState([
     {
       name: "Emine Ü.",
       comment: "Hersey cok güzeldi hayalimdeki herseyi eksiksiz yaptıkları icin cok teşekkür ederim. Secil hanımın güler yüzü ve samimiyeti icin ayrica teşekkür ediyorum."
@@ -52,7 +53,13 @@ export default function HakkimizdaPage() {
       name: "Hakan B.",
       comment: "Herşey için çok teşekkür ederim güzel organizasyondu."
     }
-  ];
+  ]);
+
+  // Sayfa yüklendiğinde yorumları karıştır
+  useEffect(() => {
+    const shuffled = [...comments].sort(() => Math.random() - 0.5);
+    setComments(shuffled);
+  }, []); // Boş dependency array - sadece sayfa ilk yüklendiğinde çalışır
 
   return (
     <div className="min-h-screen bg-dima-cream/50">
