@@ -18,9 +18,9 @@ Google Search Console doğrulaması tamamlanmış altyapı.
 
 Projeyi kendi yerel makinenizde çalıştırmak için:
 Bash
-# Bağımlılıkları yükleyin
+Bağımlılıkları yükleyin:
 npm install
-# Geliştirme sunucusunu başlatın
+Geliştirme sunucusunu başlatın:
 npm run dev
 
 Notlar:
