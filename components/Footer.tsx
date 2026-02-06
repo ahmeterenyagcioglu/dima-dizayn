@@ -95,9 +95,14 @@ export default function Footer() {
       {/* Alt çizgi / telif */}
       <div className="border-t border-gold-200/20 py-4">
         <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-          <p className="text-xs text-dima-grey-light">
-            © {new Date().getFullYear()} Dima Dizayn & Organizasyon. Tüm hakları saklıdır.
-          </p>
+          <div className="flex flex-col items-center gap-1">
+            <p className="text-xs text-dima-grey-light">
+              © {new Date().getFullYear()} Dima Dizayn & Organizasyon. Tüm hakları saklıdır.
+            </p>
+            <p className="text-xs text-dima-grey-light/60 font-mono">
+              v2026.02.06.5
+            </p>
+          </div>
         </div>
       </div>
     </footer>

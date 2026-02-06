@@ -641,6 +641,9 @@ video {
 .h-16 {
   height: 4rem;
 }
+.h-24 {
+  height: 6rem;
+}
 .h-4 {
   height: 1rem;
 }
@@ -664,9 +667,6 @@ video {
 }
 .h-px {
   height: 1px;
-}
-.h-24 {
-  height: 6rem;
 }
 .max-h-\[80vh\] {
   max-height: 80vh;
@@ -692,6 +692,9 @@ video {
 .w-16 {
   width: 4rem;
 }
+.w-24 {
+  width: 6rem;
+}
 .w-4 {
   width: 1rem;
 }
@@ -709,9 +712,6 @@ video {
 }
 .w-full {
   width: 100%;
-}
-.w-24 {
-  width: 6rem;
 }
 .min-w-0 {
   min-width: 0px;
@@ -770,6 +770,9 @@ video {
 }
 .gap-0 {
   gap: 0px;
+}
+.gap-1 {
+  gap: 0.25rem;
 }
 .gap-12 {
   gap: 3rem;
@@ -1025,6 +1028,9 @@ video {
 .text-center {
   text-align: center;
 }
+.font-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
 .font-sans {
   font-family: var(--font-dm-sans), system-ui, sans-serif;
 }
@@ -1066,6 +1072,9 @@ video {
   font-size: 0.75rem;
   line-height: 1rem;
 }
+.font-bold {
+  font-weight: 700;
+}
 .font-light {
   font-weight: 300;
 }
@@ -1077,9 +1086,6 @@ video {
 }
 .font-semibold {
   font-weight: 600;
-}
-.font-bold {
-  font-weight: 700;
 }
 .uppercase {
   text-transform: uppercase;
@@ -1110,6 +1116,9 @@ video {
 .text-dima-grey-light {
   --tw-text-opacity: 1;
   color: rgb(156 163 175 / var(--tw-text-opacity, 1));
+}
+.text-dima-grey-light\/60 {
+  color: rgb(156 163 175 / 0.6);
 }
 .text-emerald-500 {
   --tw-text-opacity: 1;
@@ -1350,13 +1359,13 @@ body {
   --tw-text-opacity: 1;
   color: rgb(198 120 32 / var(--tw-text-opacity, 1));
 }
-.hover\:text-gray-800:hover {
-  --tw-text-opacity: 1;
-  color: rgb(31 41 55 / var(--tw-text-opacity, 1));
-}
 .hover\:text-gold-700:hover {
   --tw-text-opacity: 1;
   color: rgb(164 90 29 / var(--tw-text-opacity, 1));
+}
+.hover\:text-gray-800:hover {
+  --tw-text-opacity: 1;
+  color: rgb(31 41 55 / var(--tw-text-opacity, 1));
 }
 .hover\:underline:hover {
   text-decoration-line: underline;
@@ -1445,12 +1454,12 @@ body {
     height: 5rem;
   }
 
-  .sm\:h-\[380px\] {
-    height: 380px;
-  }
-
   .sm\:h-32 {
     height: 8rem;
+  }
+
+  .sm\:h-\[380px\] {
+    height: 380px;
   }
 
   .sm\:min-h-0 {
@@ -1615,6 +1624,11 @@ body {
     line-height: 2rem;
   }
 
+  .md\:text-4xl {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  }
+
   .md\:text-5xl {
     font-size: 3rem;
     line-height: 1;
@@ -1623,11 +1637,6 @@ body {
   .md\:text-6xl {
     font-size: 3.75rem;
     line-height: 1;
-  }
-
-  .md\:text-4xl {
-    font-size: 2.25rem;
-    line-height: 2.5rem;
   }
 
   .md\:shadow-md {

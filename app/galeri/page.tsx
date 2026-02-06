@@ -216,7 +216,7 @@ export default function GaleriPage() {
                       onClick={() => openModal(foto.slug, foto.id)}
                       className="group relative aspect-[4/3] min-h-[100px] overflow-hidden rounded-lg border border-gold-200/40 bg-gray-200 shadow-sm text-left focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 active:scale-[0.98] sm:min-h-0 sm:rounded-xl sm:shadow-md"
                       aria-label={`${title} görseli ${foto.id} - büyütmek için tıklayın`}
-                      title={`${title} - Dima Dizayn ${title} organizasyonu`}
+                      title={`${title} - Bergama ${title} organizasyonu`}
                     >
                       <div
                         className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-300 ease-out group-hover:scale-110 group-active:scale-105"

@@ -97,7 +97,7 @@ export default function RootLayout({
                 "latitude": 39.1167,
                 "longitude": 27.1785
               },
-              "openingHours": "Mo-Su 09:00-18:00",
+              "openingHours": "Mo-Sa 10:30-17:00",
               "sameAs": [
                 "https://instagram.com/dimadzyn",
                 "https://www.facebook.com/dimadizaynn",
@@ -109,8 +109,8 @@ export default function RootLayout({
               "image": "https://dimadizayn.com/hero.webp",
               "aggregateRating": {
                 "@type": "AggregateRating",
-                "ratingValue": "4.9",
-                "reviewCount": "127",
+                "ratingValue": "5.0",
+                "reviewCount": "19",
                 "bestRating": "5",
                 "worstRating": "1"
               }
