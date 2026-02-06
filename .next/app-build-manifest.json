@@ -30,6 +30,27 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/page.js"
+    ],
+    "/hakkimizda/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/hakkimizda/page.css",
+      "static/chunks/app/hakkimizda/page.js"
+    ],
+    "/hakkimizda/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/hakkimizda/layout.js"
+    ],
+    "/hizmetlerimiz/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/hizmetlerimiz/page.js"
+    ],
+    "/hizmetlerimiz/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/hizmetlerimiz/layout.js"
     ]
   }
 }

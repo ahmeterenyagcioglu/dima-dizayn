@@ -5,9 +5,8 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { Quote, Star } from 'lucide-react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Navigation } from 'swiper/modules';
+import { Navigation } from 'swiper/modules';
 import 'swiper/css';
-import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 export default function HakkimizdaPage() {
@@ -189,7 +188,7 @@ export default function HakkimizdaPage() {
           {/* Swiper Slider */}
           <div className="mt-12 pb-16 px-12 md:px-16">
             <Swiper
-              modules={[Navigation, Pagination]}
+              modules={[Navigation]}
               spaceBetween={16}
               slidesPerView={1.2}
               grabCursor={true}
@@ -197,12 +196,6 @@ export default function HakkimizdaPage() {
               allowTouchMove={true}
               centeredSlides={false}
               navigation={true}
-              pagination={{
-                clickable: true,
-                el: '.swiper-pagination',
-                bulletClass: 'swiper-pagination-bullet',
-                bulletActiveClass: 'swiper-pagination-bullet-active',
-              }}
               breakpoints={{
                 768: {
                   slidesPerView: 2.2,
@@ -256,9 +249,6 @@ export default function HakkimizdaPage() {
                 </SwiperSlide>
               ))}
             </Swiper>
-
-            {/* Pagination Dots */}
-            <div className="swiper-pagination flex justify-center mt-4"></div>
           </div>
         </div>
       </section>
@@ -283,23 +273,8 @@ export default function HakkimizdaPage() {
         </div>
       </section>
 
-      {/* Swiper Pagination & Navigation Styles */}
+      {/* Swiper Navigation Styles */}
       <style jsx global>{`
-        .swiper-pagination-bullet {
-          width: 8px;
-          height: 8px;
-          background: #fbbf24;
-          opacity: 0.5;
-          transition: all 0.3s ease;
-        }
-        
-        .swiper-pagination-bullet-active {
-          width: 32px;
-          background: #f59e0b;
-          opacity: 1;
-          border-radius: 4px;
-        }
-
         .swiper-button-prev,
         .swiper-button-next {
           color: white;
