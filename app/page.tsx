@@ -1,4 +1,5 @@
 import GallerySection from '@/components/GallerySection';
+import Image from 'next/image';
 
 export default function HomePage() {
   return (
@@ -13,12 +14,17 @@ export default function HomePage() {
           }}
           aria-hidden
         />
-        {/* Arka plan görseli - public/hero.jpg ekleyin */}
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url('/hero.webp')" }}
-          aria-hidden
-        />
+        {/* Arka plan görseli - Next.js Image ile optimize */}
+        <div className="absolute inset-0">
+          <Image
+            src="/hero.webp"
+            alt="Dima Dizayn Bergama Organizasyon"
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+          />
+        </div>
         {/* Koyu overlay - metnin okunabilirliği */}
         <div className="absolute inset-0 bg-black/50" aria-hidden />
         {/* İnce gold çizgi üstte */}

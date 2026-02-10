@@ -37,7 +37,7 @@ export default function Header() {
           />
           <div className="flex items-center whitespace-nowrap">
             <span className="text-[13px] font-medium sm:text-xl md:text-2xl">Dima Dizayn</span>
-            <span className="text-[13px] font-medium sm:text-xl md:text-2xl font-normal text-gold-600 sm:mx-1">&</span>
+            <span className="text-[13px] font-medium sm:text-xl md:text-2xl font-normal text-amber-700 sm:mx-1">&</span>
             <span className="text-[13px] font-medium sm:text-xl md:text-2xl">Organizasyon</span>
           </div>
         </Link>

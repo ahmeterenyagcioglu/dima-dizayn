@@ -37,7 +37,7 @@ export default function Footer() {
             <p className="font-serif text-lg font-semibold text-gray-800">
               Dima Dizayn & Organizasyon
             </p>
-            <p className="mt-1 text-sm text-dima-grey">
+            <p className="mt-1 text-sm text-gray-600">
               Bizi sosyal medyada takip edin
             </p>
           </div>
@@ -96,11 +96,11 @@ export default function Footer() {
       <div className="border-t border-gold-200/20 py-4">
         <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
           <div className="flex flex-col items-center gap-1">
-            <p className="text-xs text-dima-grey-light">
+            <p className="text-xs text-gray-500">
               © {new Date().getFullYear()} Dima Dizayn & Organizasyon. Tüm hakları saklıdır.
             </p>
-            <p className="text-xs text-dima-grey-light/60 font-mono">
-              v2026.02.06.5
+            <p className="text-xs text-gray-500 font-mono">
+              v2026.02.10.1
             </p>
           </div>
         </div>

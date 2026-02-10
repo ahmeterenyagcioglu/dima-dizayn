@@ -5,7 +5,7 @@ Teknolojiler:
 Framework: Next.js 14 (App Router)
 Styling: Tailwind CSS
 Language: TypeScript
-Deployment: Vercel
+Deployment: Cloudflare Pages
 Domain: GoDaddy üzerinden dimadizayn.com
 
 Özellikler
@@ -24,5 +24,5 @@ Geliştirme sunucusunu başlatın:
 npm run dev
 
 Notlar:
-Proje Vercel üzerinde otomatik dağıtıma (CI/CD) bağlıdır. main branch'ine yapılan her push doğrudan canlıya yansır.
+Proje Cloudflare Pages üzerinde otomatik dağıtıma (CI/CD) bağlıdır. main branch'ine yapılan her push doğrudan canlıya yansır.
 Statik önbellek sorunlarını önlemek için kritik sayfalarda force-dynamic ayarı kullanılmıştır.
