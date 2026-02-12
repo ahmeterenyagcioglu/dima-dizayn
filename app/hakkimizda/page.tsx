@@ -118,9 +118,59 @@ export default function HakkimizdaPage() {
               detaylara olan hassasiyetimiz ve yaratıcı yaklaşımımızla, gününüzü kusursuz kılıyoruz.
             </p>
             <p className="mt-4 text-lg leading-relaxed text-dima-grey">
+              Bergama merkezli bir firma olarak, Ege'nin dokusunu organizasyonlarımıza yansıtıyoruz. Sadece şehir merkezinde değil; Dikili'nin sahil düğünlerinden Kozak'ın doğal köy nişanlarına kadar geniş bir coğrafyada hizmet veriyoruz. Bergama, Aliağa ve Ayvalık çevresindeki tüm ilçe ve köylerde, yerel ihtiyaçları bilerek ve her konsepte uyum sağlayarak mutluluğunuza ortak oluyoruz.
+            </p>
+            <p className="mt-4 text-lg leading-relaxed text-dima-grey">
               Misyonumuz, sadece bir organizasyon şirketi olmak değil, en mutlu anlarınızda 
               güvenilir bir yol arkadaşınız olmaktır.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* İstatistikler Bölümü */}
+      <section className="border-t border-gold-200/30 bg-white py-16 sm:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-4 lg:gap-12">
+            {/* 500+ Mutlu Müşteri */}
+            <div className="text-center">
+              <div className="font-serif text-4xl font-bold text-gold-600 sm:text-5xl lg:text-6xl">
+                500+
+              </div>
+              <p className="mt-2 text-sm font-medium text-gray-600 sm:text-base lg:text-lg">
+                Mutlu Müşteri
+              </p>
+            </div>
+
+            {/* 5+ Yıl Deneyim */}
+            <div className="text-center">
+              <div className="font-serif text-4xl font-bold text-gold-600 sm:text-5xl lg:text-6xl">
+                5+
+              </div>
+              <p className="mt-2 text-sm font-medium text-gray-600 sm:text-base lg:text-lg">
+                Yıl Deneyim
+              </p>
+            </div>
+
+            {/* 200+ Başarılı Organizasyon */}
+            <div className="text-center">
+              <div className="font-serif text-4xl font-bold text-gold-600 sm:text-5xl lg:text-6xl">
+                200+
+              </div>
+              <p className="mt-2 text-sm font-medium text-gray-600 sm:text-base lg:text-lg">
+                Başarılı Organizasyon
+              </p>
+            </div>
+
+            {/* 40+ Özgün Konsept */}
+            <div className="text-center">
+              <div className="font-serif text-4xl font-bold text-gold-600 sm:text-5xl lg:text-6xl">
+                40+
+              </div>
+              <p className="mt-2 text-sm font-medium text-gray-600 sm:text-base lg:text-lg">
+                Özgün Konsept
+              </p>
+            </div>
           </div>
         </div>
       </section>

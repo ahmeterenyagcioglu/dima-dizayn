@@ -1,7 +1,19 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+import { X } from 'lucide-react';
+
 const WHATSAPP_NUMBER = '905353679931';
 const PRESET_MESSAGE = 'Merhaba Dima Dizayn, organizasyon hizmetleriniz hakkında bilgi almak istiyorum.';
+
+// Mesaj havuzu
+const MESSAGES = [
+  'Ücretsiz konsept danışmanlığı için bir kahveye bekleriz! ☕',
+  'Hayalinizdeki organizasyon için hemen WhatsApp\'tan teklif alın. ✅',
+  '2026 planlarınız için profesyonel destek almaya ne dersiniz? 🗓️',
+  'Size özel dekorasyon fikirlerimiz için bize yazın. ✨',
+  'Tarihinizi ayırtmak ve detayları konuşmak için buradayız. 👋'
+];
 
 function WhatsAppIcon({ className }: { className?: string }) {
   return (
@@ -17,18 +29,84 @@ function WhatsAppIcon({ className }: { className?: string }) {
 }
 
 export default function WhatsAppButton() {
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [randomMessage, setRandomMessage] = useState('');
+
+  useEffect(() => {
+    setMounted(true);
+    
+    // Rastgele mesaj seç
+    const randomIndex = Math.floor(Math.random() * MESSAGES.length);
+    setRandomMessage(MESSAGES[randomIndex]);
+    
+    // 3 saniye sonra tooltip'i göster
+    const timer = setTimeout(() => {
+      setShowTooltip(true);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   const encodedMessage = encodeURIComponent(PRESET_MESSAGE);
   const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
 
+  if (!mounted) return null;
+
   return (
-    <a
-      href={whatsappUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-[#25D366]/50"
-      aria-label="WhatsApp ile iletişime geç"
-    >
-      <WhatsAppIcon className="h-8 w-8" />
-    </a>
+    <>
+      {/* Tooltip/Popover */}
+      {showTooltip && (
+        <div className="fixed bottom-24 right-6 z-40 max-w-xs animate-fade-in">
+          <div className="relative bg-white/85 backdrop-blur-lg rounded-lg shadow-xl border border-gray-200/40 p-4">
+            {/* Kapatma butonu */}
+            <button
+              onClick={() => setShowTooltip(false)}
+              className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-gray-100/80 hover:bg-gray-200/80 transition-colors flex items-center justify-center"
+              aria-label="Kapat"
+            >
+              <X className="h-3 w-3 text-gray-600" />
+            </button>
+            
+            {/* Mesaj */}
+            <p className="text-sm text-gray-700 pr-6">
+              <span className="font-medium">{randomMessage}</span>
+            </p>
+            
+            {/* Ok */}
+            <div className="absolute -bottom-2 right-4 w-4 h-4 bg-white/85 transform rotate-45 border-r border-b border-gray-200/40"></div>
+          </div>
+        </div>
+      )}
+
+      {/* WhatsApp Butonu */}
+      <a
+        href={whatsappUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-[#25D366]/50"
+        aria-label="WhatsApp ile iletişime geç"
+      >
+        <WhatsAppIcon className="h-8 w-8" />
+      </a>
+
+      {/* Animasyon stil */}
+      <style jsx>{`
+        @keyframes fade-in {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .animate-fade-in {
+          animation: fade-in 0.3s ease-out;
+        }
+      `}</style>
+    </>
   );
 }

@@ -97,10 +97,10 @@ export default function Footer() {
         <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
           <div className="flex flex-col items-center gap-1">
             <p className="text-xs text-gray-500">
-              © {new Date().getFullYear()} Dima Dizayn & Organizasyon. Tüm hakları saklıdır.
+              &copy; {new Date().getFullYear()} Dima Dizayn & Organizasyon. T&uuml;m hakları saklıdır.
             </p>
             <p className="text-xs text-gray-500 font-mono">
-              v2026.02.10.1
+              v2026.02.12.41
             </p>
           </div>
         </div>

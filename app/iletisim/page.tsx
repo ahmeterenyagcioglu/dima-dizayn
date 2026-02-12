@@ -174,11 +174,11 @@ export default function IletisimPage() {
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
-                allowFullScreen
                 loading="lazy"
+                className="lazy-load"
                 referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
                 title="Dima Dizayn konumu - Google Haritalar"
-                className="h-full w-full"
               />
             </div>
           </div>

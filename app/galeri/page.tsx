@@ -64,6 +64,48 @@ export default function GaleriPage() {
   const [activeTab, setActiveTab] = useState<'all' | 'konseptler' | 'hizmetler'>('all');
   const [shuffledPhotosByCategory, setShuffledPhotosByCategory] = useState<{ [key: string]: { slug: string; id: number }[] }>({});
 
+  // URL hash takip sistemi
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      // Tüm resimlerin yüklenmesini bekle
+      const checkImagesLoaded = () => {
+        const images = document.querySelectorAll('img');
+        const allLoaded = Array.from(images).every(img => img.complete);
+        return allLoaded;
+      };
+
+      const scrollToHash = () => {
+        const targetElement = document.querySelector(hash);
+        if (targetElement) {
+          targetElement.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start'
+          });
+        }
+      };
+
+      // Resimler hemen yüklendiyse bekleme
+      if (checkImagesLoaded()) {
+        setTimeout(scrollToHash, 100);
+      } else {
+        // Resimlerin yüklenmesini bekle
+        const interval = setInterval(() => {
+          if (checkImagesLoaded()) {
+            clearInterval(interval);
+            setTimeout(scrollToHash, 100);
+          }
+        }, 100);
+
+        // 5 saniye sonra beklemeği bırak
+        setTimeout(() => {
+          clearInterval(interval);
+          scrollToHash();
+        }, 5000);
+      }
+    }
+  }, []);
+
   // Sayfa yüklendiğinde fotoğrafları karıştır
   useEffect(() => {
     const result: { [key: string]: { slug: string; id: number }[] } = {};
@@ -204,8 +246,12 @@ export default function GaleriPage() {
             if (fotolar.length === 0) return null;
             
             return (
-              <div key={slug} className="animate-fade-in">
-                <h2 className="font-serif text-2xl font-semibold text-gray-800 sm:text-3xl border-b border-gold-200/50 pb-2">
+              <div key={slug} className="animate-fade-in h-auto">
+                <h2 
+                  id={slug}
+                  className="font-serif text-2xl font-semibold text-gray-800 sm:text-3xl border-b border-gold-200/50 pb-2"
+                  style={{ scrollMarginTop: '130px' }}
+                >
                   {title}
                 </h2>
                 <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-3 sm:mt-5 md:grid-cols-3 md:gap-4 lg:gap-5">

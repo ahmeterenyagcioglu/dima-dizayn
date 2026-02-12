@@ -7,85 +7,114 @@ import {
   Gift, 
   Camera, 
   Palette, 
-  Armchair, 
   Trees, 
   Video, 
   Sparkles,
-  MapPin
+  MapPin,
+  Users,
+  Star,
+  Lightbulb,
+  Crown
 } from 'lucide-react';
 
 const hizmetler = [
   {
     icon: Heart,
-    title: 'Düğün & Nişan Organizasyonu',
+    title: 'Düğün Organizasyonu',
     description: 'Hayallerinizdeki konseptlerle unutulmaz bir başlangıç.',
-    color: 'text-rose-500'
+    color: 'text-rose-500',
+    link: '/galeri#dugun-nikah'
+  },
+  {
+    icon: Star,
+    title: 'Nişan Organizasyonu',
+    description: 'Özel gününüz için şık ve anlamlı nişan törenleri.',
+    color: 'text-pink-500',
+    link: '/galeri#nisan'
   },
   {
     icon: Gift,
-    title: 'Kına & Sünnet Organizasyonu',
+    title: 'Kına Organizasyonu',
     description: 'Geleneksel ve modern dokunuşların buluştuğu özel geceler.',
-    color: 'text-purple-500'
+    color: 'text-purple-500',
+    link: '/galeri#kina'
+  },
+  {
+    icon: Crown,
+    title: 'Sünnet Organizasyonu',
+    description: 'Çocuklarınız için unutulmaz sünnet şölenleri.',
+    color: 'text-indigo-500',
+    link: '/galeri#sunnet'
   },
   {
     icon: Camera,
     title: 'Fotoğraf, Video & Drone Çekimi',
     description: 'En değerli anlarınızı havadan ve karadan ölümsüzleştiriyoruz.',
-    color: 'text-green-500'
+    color: 'text-green-500',
+    link: '/galeri#fotograf-video'
   },
   {
     icon: Music,
     title: 'DJ & Orkestra',
     description: 'En mutlu anlarınıza ritim katacak profesyonel müzik hizmeti.',
-    color: 'text-blue-500'
+    color: 'text-blue-500',
+    link: '/galeri#muzik'
   },
   {
     icon: Palette,
     title: 'Konsept Kurulumu & Dekorasyon',
     description: 'Mekana özel tasarımlar ve estetik dokunuşlar.',
-    color: 'text-orange-500'
+    color: 'text-orange-500',
+    link: '/galeri'
   },
   {
     icon: Trees,
     title: 'Dış Çekim & Albüm Hazırlama',
     description: 'Doğanın içinde en doğal ve şık pozlarınızla size özel albümler.',
-    color: 'text-emerald-500'
+    color: 'text-emerald-500',
+    link: '/galeri#fotograf-video'
   },
   {
     icon: Gift,
     title: 'Doğum Günü & Özel Kutlamalar',
     description: 'Her yaşa ve temaya uygun neşeli kutlamalar.',
-    color: 'text-pink-500'
-  },
-  {
-    icon: Armchair,
-    title: 'Sandalye & Masa Giydirme',
-    description: 'Etkinliğinizin havasını değiştiren şık kumaş ve aksesuar seçenekleri.',
-    color: 'text-indigo-500'
+    color: 'text-pink-500',
+    link: '/galeri#dogum-gunu'
   },
   {
     icon: MapPin,
     title: 'Giriş Yolu Kurulumu',
     description: 'Misafirlerinizi karşıladığınız o ilk anı, şık gelin yolları ve dekoratif giriş üniteleriyle büyüleyici hale getiriyoruz.',
-    color: 'text-emerald-500'
+    color: 'text-emerald-500',
+    link: '/galeri#diger-hizmetler'
   },
   {
-    icon: Heart,
+    icon: Users,
     title: 'Nedime Hizmeti',
     description: 'En özel gününüzde her detayla ilgilenen, yanınızdan ayrılmayan profesyonel nedime ekibimiz.',
-    color: 'text-rose-500'
+    color: 'text-rose-500',
+    link: '/galeri#diger-hizmetler'
   },
   {
     icon: Sparkles,
     title: 'Palyaço Hizmeti',
     description: 'Çocuklar için eğlenceli aktiviteler, yüz boyama ve oyunlarla dolu unutulmaz anlar.',
-    color: 'text-yellow-500'
+    color: 'text-yellow-500',
+    link: '/galeri#diger-hizmetler'
   },
   {
     icon: Video,
     title: 'Klip Hazırlama',
     description: 'Özel günlerinizden geriye kalan en güzel hikaye videoları.',
-    color: 'text-red-500'
+    color: 'text-red-500',
+    link: '/galeri#fotograf-video'
+  },
+  {
+    icon: Lightbulb,
+    title: 'Alan Işıklandırma',
+    description: 'Etkinlik alanınız için profesyonel ışıklandırma sistemleri ve dekoratif aydınlatma.',
+    color: 'text-yellow-500',
+    link: '/galeri#isiklandirma'
   }
 ];
 
@@ -123,9 +152,11 @@ export default function HizmetlerimizPage() {
           {hizmetler.map((hizmet, index) => {
             const Icon = hizmet.icon;
             return (
-              <div
+              <Link
                 key={index}
-                className="group rounded-xl border border-gold-200/40 bg-white p-8 shadow-sm transition-all duration-300 hover:scale-105 hover:border-gold-400/60 hover:shadow-lg"
+                href={hizmet.link}
+                scroll={false}
+                className="group rounded-xl border border-gold-200/40 bg-white p-8 shadow-sm transition-all duration-300 hover:scale-105 hover:border-gold-400/60 hover:shadow-lg block"
               >
                 {/* İkon */}
                 <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-gold-100">
@@ -141,7 +172,7 @@ export default function HizmetlerimizPage() {
                 <p className="text-dima-grey leading-relaxed">
                   {hizmet.description}
                 </p>
-              </div>
+              </Link>
             );
           })}
         </div>
