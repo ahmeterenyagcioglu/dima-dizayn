@@ -77,6 +77,26 @@ export default function IletisimPage() {
                 </div>
               </div>
 
+              {/* E-posta */}
+              <div className="flex items-start gap-4">
+                <Link
+                  href="mailto:bilgi@dimadizayn.com"
+                  className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-gold-100 text-gold-600 transition-all duration-300 hover:bg-gold-200 hover:scale-105"
+                  aria-label="E-posta gönder"
+                >
+                  <MessageCircle className="h-6 w-6" />
+                </Link>
+                <div>
+                  <h4 className="font-semibold text-gray-800">E-posta</h4>
+                  <Link
+                    href="mailto:bilgi@dimadizayn.com"
+                    className="block text-dima-grey hover:text-gold-600 transition-colors cursor-pointer hover:underline"
+                  >
+                    bilgi@dimadizayn.com
+                  </Link>
+                </div>
+              </div>
+
               {/* Adres */}
               <div className="flex items-start gap-4">
                 <Link

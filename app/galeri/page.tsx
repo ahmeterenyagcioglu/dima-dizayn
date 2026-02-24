@@ -4,43 +4,66 @@ import { useState, useEffect, useMemo } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Tüm fotoğraflar - ham veri
+// Tüm fotoğraflar - ham veri (artık sınır yok, istediğiniz kadar fotoğraf ekleyebilirsiniz)
 const ALL_PHOTOS = [
+  // Kına fotoğrafları (18 adet)
   { slug: 'kina', id: 1 }, { slug: 'kina', id: 2 }, { slug: 'kina', id: 3 },
   { slug: 'kina', id: 4 }, { slug: 'kina', id: 5 }, { slug: 'kina', id: 6 }, { slug: 'kina', id: 7 }, { slug: 'kina', id: 8 }, { slug: 'kina', id: 9 },
   { slug: 'kina', id: 10 }, { slug: 'kina', id: 11 }, { slug: 'kina', id: 12 }, { slug: 'kina', id: 13 }, { slug: 'kina', id: 14 }, { slug: 'kina', id: 15 },
   { slug: 'kina', id: 16 }, { slug: 'kina', id: 17 }, { slug: 'kina', id: 18 },
+  
+  // Nişan fotoğrafları (19 adet)
   { slug: 'nisan', id: 1 }, { slug: 'nisan', id: 2 }, { slug: 'nisan', id: 3 },
   { slug: 'nisan', id: 4 }, { slug: 'nisan', id: 5 }, { slug: 'nisan', id: 6 },
   { slug: 'nisan', id: 7 }, { slug: 'nisan', id: 8 }, { slug: 'nisan', id: 9 },
   { slug: 'nisan', id: 10 }, { slug: 'nisan', id: 11 }, { slug: 'nisan', id: 12 },
   { slug: 'nisan', id: 13 }, { slug: 'nisan', id: 14 }, { slug: 'nisan', id: 15 },
   { slug: 'nisan', id: 16 }, { slug: 'nisan', id: 17 }, { slug: 'nisan', id: 18 },
+  { slug: 'nisan', id: 19 }, 
+
+  // Düğün & Nikah fotoğrafları (13 adet)
   { slug: 'dugun-nikah', id: 1 }, { slug: 'dugun-nikah', id: 2 }, { slug: 'dugun-nikah', id: 3 },
   { slug: 'dugun-nikah', id: 4 }, { slug: 'dugun-nikah', id: 5 }, { slug: 'dugun-nikah', id: 6 },
   { slug: 'dugun-nikah', id: 7 }, { slug: 'dugun-nikah', id: 8 }, { slug: 'dugun-nikah', id: 9 },
-  { slug: 'dugun-nikah', id: 10 }, { slug: 'dugun-nikah', id: 11 }, { slug: 'dugun-nikah', id: 12 },
+  { slug: 'dugun-nikah', id: 10 }, { slug: 'dugun-nikah', id: 11 }, { slug: 'dugun-nikah', id: 12 }, { slug: 'dugun-nikah', id: 13 },
+  
+  // Sünnet fotoğrafları (17 adet)
   { slug: 'sunnet', id: 1 }, { slug: 'sunnet', id: 2 }, { slug: 'sunnet', id: 3 },
   { slug: 'sunnet', id: 4 }, { slug: 'sunnet', id: 5 }, { slug: 'sunnet', id: 6 },
   { slug: 'sunnet', id: 7 }, { slug: 'sunnet', id: 8 }, { slug: 'sunnet', id: 9 },
   { slug: 'sunnet', id: 10 }, { slug: 'sunnet', id: 11 }, { slug: 'sunnet', id: 12 },
   { slug: 'sunnet', id: 13 }, { slug: 'sunnet', id: 14 }, { slug: 'sunnet', id: 15 },
   { slug: 'sunnet', id: 16 }, { slug: 'sunnet', id: 17 },
+  
+  // Doğum Günü fotoğrafları (10 adet)
   { slug: 'dogum-gunu', id: 1 }, { slug: 'dogum-gunu', id: 2 }, { slug: 'dogum-gunu', id: 3 },
   { slug: 'dogum-gunu', id: 4 }, { slug: 'dogum-gunu', id: 5 }, { slug: 'dogum-gunu', id: 6 },
   { slug: 'dogum-gunu', id: 7 }, { slug: 'dogum-gunu', id: 8 }, { slug: 'dogum-gunu', id: 9 },
+  { slug: 'dogum-gunu', id: 10 },
+  
+  // Fotoğraf & Video fotoğrafları (4 adet)
   { slug: 'fotograf-video', id: 1 }, { slug: 'fotograf-video', id: 2 }, { slug: 'fotograf-video', id: 3 }, { slug: 'fotograf-video', id: 4 },
+  
+  // Müzik fotoğrafları (9 adet)
   { slug: 'muzik', id: 1 }, { slug: 'muzik', id: 2 }, { slug: 'muzik', id: 3 },
   { slug: 'muzik', id: 4 }, { slug: 'muzik', id: 5 }, { slug: 'muzik', id: 6 }, { slug: 'muzik', id: 7 }, { slug: 'muzik', id: 8 }, { slug: 'muzik', id: 9 },
+  
+  // Işıklandırma fotoğrafları (9 adet)
   { slug: 'isiklandirma', id: 1 }, { slug: 'isiklandirma', id: 2 }, { slug: 'isiklandirma', id: 3 },
   { slug: 'isiklandirma', id: 4 }, { slug: 'isiklandirma', id: 5 }, { slug: 'isiklandirma', id: 6 }, { slug: 'isiklandirma', id: 7 }, { slug: 'isiklandirma', id: 8 },
   { slug: 'isiklandirma', id: 9 },
+  
+  // Diğer Hizmetler fotoğrafları (9 adet)
   { slug: 'diger-hizmetler', id: 1 }, { slug: 'diger-hizmetler', id: 2 }, { slug: 'diger-hizmetler', id: 3 },
   { slug: 'diger-hizmetler', id: 4 }, { slug: 'diger-hizmetler', id: 5 }, { slug: 'diger-hizmetler', id: 6 },
   { slug: 'diger-hizmetler', id: 7 }, { slug: 'diger-hizmetler', id: 8 }, { slug: 'diger-hizmetler', id: 9 }
+  
+  // NOT: Artık burada fotoğraf sınırı yok! İstediğiniz kadar fotoğraf ekleyebilirsiniz.
+  // Örnek: { slug: 'kina', id: 19 }, { slug: 'kina', id: 20 }, ... { slug: 'kina', id: 50 }
+  // Sistem otomatik olarak mevcut tüm fotoğrafları işleyecektir.
 ];
 
-// Kategoriler ve limitleri
+// Kategoriler ve gösterim limitleri (sadece kullanıcıya gösterilecek fotoğraf sayısı)
 const KATEGORILER = [
   { slug: 'kina', title: 'Kına', limit: 6 },
   { slug: 'nisan', title: 'Nişan', limit: 6 },
@@ -51,6 +74,8 @@ const KATEGORILER = [
   { slug: 'muzik', title: 'Müzik', limit: 3 },
   { slug: 'isiklandirma', title: 'Işıklandırma', limit: 3 },
   { slug: 'diger-hizmetler', title: 'Diğer Hizmetlerimiz', limit: 3 }
+  // NOT: Limit sadece kullanıcıya gösterilecek fotoğraf sayısıdır.
+  // Modal içinde kategorideki TÜM fotoğraflar gezilebilir.
 ];
 
 function getImageUrl(slug: string, id: number) {
@@ -97,7 +122,7 @@ export default function GaleriPage() {
           }
         }, 100);
 
-        // 5 saniye sonra beklemeği bırak
+        // 5 saniye sonra beklemeyi bırak
         setTimeout(() => {
           clearInterval(interval);
           scrollToHash();

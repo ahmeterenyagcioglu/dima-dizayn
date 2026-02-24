@@ -100,7 +100,7 @@ export default function Footer() {
               &copy; {new Date().getFullYear()} Dima Dizayn & Organizasyon. T&uuml;m hakları saklıdır.
             </p>
             <p className="text-xs text-gray-500 font-mono">
-              v2026.02.12.41
+              v2026.02.24.01
             </p>
           </div>
         </div>

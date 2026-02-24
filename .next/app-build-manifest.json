@@ -36,22 +36,6 @@
       "static/chunks/main-app.js",
       "static/chunks/app/galeri/layout.js"
     ],
-    "/_not-found/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/_not-found/page.js"
-    ],
-    "/hakkimizda/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/hakkimizda/page.css",
-      "static/chunks/app/hakkimizda/page.js"
-    ],
-    "/hakkimizda/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/hakkimizda/layout.js"
-    ],
     "/iletisim/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",

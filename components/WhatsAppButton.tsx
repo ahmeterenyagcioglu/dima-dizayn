@@ -10,8 +10,8 @@ const PRESET_MESSAGE = 'Merhaba Dima Dizayn, organizasyon hizmetleriniz hakkınd
 const MESSAGES = [
   'Ücretsiz konsept danışmanlığı için bir kahveye bekleriz! ☕',
   'Hayalinizdeki organizasyon için hemen WhatsApp\'tan teklif alın. ✅',
-  '2026 planlarınız için profesyonel destek almaya ne dersiniz? 🗓️',
-  'Size özel dekorasyon fikirlerimiz için bize yazın. ✨',
+  '2026\'daki özel günleriniz için profesyonel destek almaya ne dersiniz? 🗓️',
+  'Size özel organizasyon fikirlerimiz için bize yazın. ✨',
   'Tarihinizi ayırtmak ve detayları konuşmak için buradayız. 👋'
 ];
 

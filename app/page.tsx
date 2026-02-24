@@ -10,7 +10,7 @@ const ANNOUNCEMENT_MESSAGES = [
   ' 2026 Sezonu Rezervasyonlarımız Devam Ediyor! Yerinizi ayırtmayı unutmayın.',
   ' Hayallerinizi Ertelemeyin: 2026 organizasyonları için takvimimiz doluyor.',
   ' 2026\'da Dima Dizayn farkıyla parlamak için şimdiden plan yapalım.',
-  ' 2026 Sezonu İçin Özel Fırsat: Sınırlı sayıda yerinizi ayırtın!'
+  ' 2026 Sezonu İçin Özel Fırsat: %10 indirim için hemen iletişime geçin!'
 ];
 
 export default function HomePage() {
@@ -58,7 +58,10 @@ export default function HomePage() {
             Dima Dizayn ile Hayallerinizi Organize Ediyoruz
           </h1>
           <p className="mt-6 text-sm font-medium uppercase tracking-[0.3em] text-gold-300/90 sm:text-base">
-            Düğün · Nişan · Kına · Sünnet
+            <Link href="/galeri#dugun-nikah" className="hover:text-gold-200 transition-colors duration-300">Düğün</Link> ·{' '}
+            <Link href="/galeri#nisan" className="hover:text-gold-200 transition-colors duration-300">Nişan</Link> ·{' '}
+            <Link href="/galeri#kina" className="hover:text-gold-200 transition-colors duration-300">Kına</Link> ·{' '}
+            <Link href="/galeri#sunnet" className="hover:text-gold-200 transition-colors duration-300">Sünnet</Link>
           </p>
         </div>
       </section>
@@ -69,7 +72,7 @@ export default function HomePage() {
           <div className="flex items-center justify-center gap-3 text-center">
             <span className="text-2xl">🗓️</span>
             <p className="text-sm font-medium text-gray-800 sm:text-base">
-              {announcementMessage}{' '}Yerinizi şimdiden ayırtmak için{' '}
+              {announcementMessage}{' '}Hayalinizdeki organizasyon için{' '}
               <a
                 href="https://wa.me/905353679931?text=Merhaba%20Dima%20Dizayn,%202026%20sezonu%20i%C3%A7in%20rezervasyonu%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum."
                 target="_blank"
@@ -97,24 +100,33 @@ export default function HomePage() {
           
           {/* Hizmet Kartları */}
           <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            <div className="rounded-xl border border-gold-200/40 bg-dima-cream/50 p-6 text-center shadow-sm transition-shadow hover:shadow-md">
-              <h3 className="font-serif text-lg font-semibold text-gray-800">Organizasyon</h3>
+            <Link 
+              href="/galeri"
+              className="group rounded-xl border border-gold-200/40 bg-dima-cream/50 p-6 text-center shadow-sm transition-all duration-300 hover:shadow-md hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2"
+            >
+              <h3 className="font-serif text-lg font-semibold text-gray-800 group-hover:text-gold-700 transition-colors">Organizasyon</h3>
               <p className="mt-2 text-sm text-dima-grey">
                 Mekan, dekorasyon ve program planlaması ile gününüzü sorunsuz yönetiyoruz.
               </p>
-            </div>
-            <div className="rounded-xl border border-gold-200/40 bg-dima-cream/50 p-6 text-center shadow-sm transition-shadow hover:shadow-md">
-              <h3 className="font-serif text-lg font-semibold text-gray-800">Fotoğraf & Video</h3>
+            </Link>
+            <Link 
+              href="/galeri#fotograf-video"
+              className="group rounded-xl border border-gold-200/40 bg-dima-cream/50 p-6 text-center shadow-sm transition-all duration-300 hover:shadow-md hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2"
+            >
+              <h3 className="font-serif text-lg font-semibold text-gray-800 group-hover:text-gold-700 transition-colors">Fotoğraf & Video</h3>
               <p className="mt-2 text-sm text-dima-grey">
                 Anlarınızı profesyonel çekim ve kurgu ile ölümsüzleştiriyoruz.
               </p>
-            </div>
-            <div className="rounded-xl border border-gold-200/40 bg-dima-cream/50 p-6 text-center shadow-sm transition-shadow hover:shadow-md sm:col-span-2 lg:col-span-1">
-              <h3 className="font-serif text-lg font-semibold text-gray-800">Müzik</h3>
+            </Link>
+            <Link 
+              href="/galeri#muzik"
+              className="group rounded-xl border border-gold-200/40 bg-dima-cream/50 p-6 text-center shadow-sm transition-all duration-300 hover:shadow-md hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 sm:col-span-2 lg:col-span-1"
+            >
+              <h3 className="font-serif text-lg font-semibold text-gray-800 group-hover:text-gold-700 transition-colors">Müzik</h3>
               <p className="mt-2 text-sm text-dima-grey">
                 DJ ve canlı müzik seçenekleriyle davetlilerinize unutulmaz bir atmosfer sunuyoruz.
               </p>
-            </div>
+            </Link>
           </div>
           
           {/* Hizmet Bölgelerimiz Başlığı */}
@@ -270,7 +282,7 @@ export default function HomePage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-3 text-center">
                   <p className="text-white text-sm font-medium">
-                    <span className="block">Düğün & Nikah</span>
+                    <span className="block">Düğün & Nikah Organizasyonu</span>
                     <Link 
                       href="/galeri#dugun-nikah" 
                       className="text-gold-300 hover:text-gold-200 transition-colors underline"
