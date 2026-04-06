@@ -750,6 +750,38 @@
 
 ---
 
+## v2026.04.06.1 - 06.04.2026
+
+### 📁 Dosya Yapısı Yeniden Düzenlendi
+- **Galeri Klasör Yapısı**: Tüm görseller `public/gallery/` altında kategorize edildi
+  - `gallery/anasayfa/` — Ana sayfa "Mutlu Anlardan Kareler" görselleri (1-6)
+  - `gallery/assets/` — Hero görselleri ve logo (about-hero, contact-hero, hero, hizmetler-hero, about-vertical, logo.webp)
+  - `gallery/favicon/` — Favicon ve uygulama ikonları
+  - `gallery/yeni-konseptler/` — Yeni konsept fotoğrafları (1-8)
+- **Logo Güncellendi**: `logo.svg` → `logo.webp` olarak değiştirildi
+- **Favicon Yolları Güncellendi**: `app/layout.tsx` metadata ve `site.webmanifest` yeni konumla güncellendi
+- **`.next/` Gitignore'a Eklendi**: Build cache artık versiyon kontrolüne dahil edilmiyor
+
+### ✨ Yeni Konseptlerimiz Bölümü
+- **Ana Sayfa**: Koyu arka planlı, animasyonlu "Yeni Konseptlerimiz" bölümü eklendi
+  - Pulsing "YENİ" etiketi
+  - Asimetrik grid: büyük featured fotoğraf + 2 küçük fotoğraf
+  - Sayfa her yüklendiğinde 8 fotoğraftan rastgele 3 tanesi gösterilir
+  - `useInView` ile scroll animasyonu
+- **Galeri Sayfası**: "Yeni Konseptlerimiz" kategorisi en üste alındı
+  - 8 fotoğraftan rastgele 6 tanesi önizlemede gösterilir
+  - "Konsept Kurulumları" tab'ına dahil edildi, "Ek Hizmetler" tab'ından çıkarıldı
+- **YeniKonseptBanner Bileşeni**: Hizmetlerimiz, Hakkımızda ve İletişim sayfalarına eklendi
+  - Her sayfada CTA bölümünün hemen üstünde görünür
+  - 8 fotoğraftan rastgele 2 tanesi hafif eğimli olarak yan yana
+
+### 🛠️ Hata Düzeltmeleri
+- **Galeri Modal**: Fotoğraf dışındaki siyah alana tıklayınca modal kapanmıyordu — düzeltildi
+  - Resim kapsayıcısı `w-full h-full` yerine `w-[90vw] h-[80vh]` ile sınırlandırıldı
+  - Dış overlay `e.target === e.currentTarget` kontrolüyle çalışıyor
+
+---
+
 ## 🚀 Gelecek Planlar (Ahmet Eren'in Notları)
 
 ### 📱 Kullanıcı Deneyimi (UX) ve Dönüşüm
