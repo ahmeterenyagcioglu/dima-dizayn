@@ -1,10 +1,32 @@
+/**
+ * app/galeri/page.tsx — Galeri Sayfası (/galeri)
+ *
+ * Özellikler:
+ *  - ALL_PHOTOS dizisindeki tüm fotoğrafları kategoriye göre gruplandırır
+ *  - Her kategori sayfa yüklenirken kendi içinde rastgele sıralanır (shuffle)
+ *  - Tab sistemi: Tüm / Konsept Kurulumları / Ek Hizmetler
+ *  - Her kategoride limit kadar önizleme gösterilir; modal'da kategorinin tamamı gezilir
+ *  - URL hash (#kina, #nisan …) ile dışarıdan doğrudan bölüme yönlendirme desteklenir
+ *  - Lightbox modal: sol/sağ ok, ← → klavye kısayolları, Esc ile kapatma
+ *
+ * Yeni fotoğraf eklemek için: ALL_PHOTOS dizisine { slug, id } satırı ekle.
+ * Yeni kategori eklemek için: ALL_PHOTOS + KATEGORILER dizisine ekle.
+ */
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+// useMemo kullanılmıyor; ilerleyen düzenlemelerde ihtiyaç duyulursa eklenir.
+import { useState, useEffect, useCallback } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Tüm fotoğraflar - ham veri (artık sınır yok, istediğiniz kadar fotoğraf ekleyebilirsiniz)
+/*
+  Galeri veri kaynağı — tüm fotoğraflar burada tanımlanır.
+  Format: { slug: 'klasor-adi', id: dosya-numarasi }
+  Karşılık geldiği dosya yolu: public/gallery/<slug>/<id>.webp
+
+  Fotoğraf eklemek için ilgili kategorinin altına satır eklemek yeterli.
+  Dosyanın gerçekten public/gallery/<slug>/<id>.webp konumunda olduğundan emin ol.
+*/
 const ALL_PHOTOS = [
   // Kına fotoğrafları (18 adet)
   { slug: 'kina', id: 1 }, { slug: 'kina', id: 2 }, { slug: 'kina', id: 3 },
@@ -56,15 +78,27 @@ const ALL_PHOTOS = [
   // Diğer Hizmetler fotoğrafları (9 adet)
   { slug: 'diger-hizmetler', id: 1 }, { slug: 'diger-hizmetler', id: 2 }, { slug: 'diger-hizmetler', id: 3 },
   { slug: 'diger-hizmetler', id: 4 }, { slug: 'diger-hizmetler', id: 5 }, { slug: 'diger-hizmetler', id: 6 },
-  { slug: 'diger-hizmetler', id: 7 }, { slug: 'diger-hizmetler', id: 8 }, { slug: 'diger-hizmetler', id: 9 }
-  
+  { slug: 'diger-hizmetler', id: 7 }, { slug: 'diger-hizmetler', id: 8 }, { slug: 'diger-hizmetler', id: 9 },
+
+  // Yeni Konseptler (8 adet)
+  { slug: 'yeni-konseptler', id: 1 }, { slug: 'yeni-konseptler', id: 2 }, { slug: 'yeni-konseptler', id: 3 },
+  { slug: 'yeni-konseptler', id: 4 }, { slug: 'yeni-konseptler', id: 5 }, { slug: 'yeni-konseptler', id: 6 },
+  { slug: 'yeni-konseptler', id: 7 }, { slug: 'yeni-konseptler', id: 8 }
+
   // NOT: Artık burada fotoğraf sınırı yok! İstediğiniz kadar fotoğraf ekleyebilirsiniz.
   // Örnek: { slug: 'kina', id: 19 }, { slug: 'kina', id: 20 }, ... { slug: 'kina', id: 50 }
   // Sistem otomatik olarak mevcut tüm fotoğrafları işleyecektir.
 ];
 
-// Kategoriler ve gösterim limitleri (sadece kullanıcıya gösterilecek fotoğraf sayısı)
+/*
+  Kategori tanımları.
+  - slug   : ALL_PHOTOS ile eşleşmeli ve URL hash olarak kullanılır (#slug)
+  - title  : Sayfada görünen başlık
+  - limit  : Önizleme grid'inde kaç fotoğraf gösterileceği.
+             Modal açıldığında bu limit geçersizdir; kategorinin tüm fotoğrafları gezilir.
+*/
 const KATEGORILER = [
+  { slug: 'yeni-konseptler', title: '✨ Yeni Konseptlerimiz', limit: 6 },
   { slug: 'kina', title: 'Kına', limit: 6 },
   { slug: 'nisan', title: 'Nişan', limit: 6 },
   { slug: 'dugun-nikah', title: 'Düğün & Nikah', limit: 6 },
@@ -153,67 +187,76 @@ export default function GaleriPage() {
   const getFilteredCategories = () => {
     if (activeTab === 'all') return KATEGORILER;
     if (activeTab === 'konseptler') {
-      return KATEGORILER.filter(k => 
-        k.slug.includes('kina') || k.slug.includes('nisan') || k.slug.includes('dugun') || k.slug.includes('sunnet') || k.slug.includes('dogum')
+      return KATEGORILER.filter(k =>
+        k.slug.includes('kina') || k.slug.includes('nisan') || k.slug.includes('dugun') || k.slug.includes('sunnet') || k.slug.includes('dogum') || k.slug.includes('yeni-konseptler')
       );
     }
     if (activeTab === 'hizmetler') {
-      return KATEGORILER.filter(k => 
-        !k.slug.includes('kina') && !k.slug.includes('nisan') && !k.slug.includes('dugun') && !k.slug.includes('sunnet') && !k.slug.includes('dogum')
+      return KATEGORILER.filter(k =>
+        !k.slug.includes('kina') && !k.slug.includes('nisan') && !k.slug.includes('dugun') && !k.slug.includes('sunnet') && !k.slug.includes('dogum') && !k.slug.includes('yeni-konseptler')
       );
     }
     return KATEGORILER;
   };
 
-  // Modal aç
+  // Modal aç — tıklanan fotoğrafın slug ve id'sini state'e yaz
   const openModal = (slug: string, id: number) => {
     setSelectedPhoto({ slug, id });
     setAktifKategori(slug);
     setModalOpen(true);
   };
 
-  // Modal kapat
-  const closeModal = () => {
+  /*
+    Modal kapat.
+    useCallback ile sabit referans oluşturulur; böylece aşağıdaki klavye
+    useEffect'i her render'da yeniden bağlanmak zorunda kalmaz.
+  */
+  const closeModal = useCallback(() => {
     setSelectedPhoto(null);
     setAktifKategori(null);
     setModalOpen(false);
-  };
+  }, []);
 
-  // Modal navigasyonu
-  const navigatePhoto = (direction: number) => {
+  /*
+    Modal içi fotoğraf navigasyonu (direction: -1 geri, +1 ileri).
+    useCallback bağımlılıkları: selectedPhoto, aktifKategori, shuffledPhotosByCategory.
+    Bu sayede klavye useEffect doğru bağımlılık listesiyle çalışır.
+  */
+  const navigatePhoto = useCallback((direction: number) => {
     if (!selectedPhoto || !aktifKategori) return;
-    
+
     const kategoriFotolari = shuffledPhotosByCategory[aktifKategori] || [];
-    const mevcutIndex = kategoriFotolari.findIndex(foto => 
-      foto.slug === selectedPhoto.slug && foto.id === selectedPhoto.id
+    const mevcutIndex = kategoriFotolari.findIndex(
+      (foto) => foto.slug === selectedPhoto.slug && foto.id === selectedPhoto.id
     );
-    
+
     const newIndex = mevcutIndex + direction;
     if (newIndex >= 0 && newIndex < kategoriFotolari.length) {
       setSelectedPhoto(kategoriFotolari[newIndex]);
     }
-  };
+  }, [selectedPhoto, aktifKategori, shuffledPhotosByCategory]);
 
-  // Klavye kontrolleri
+  /*
+    Klavye kontrolleri: Esc (kapat), ← (önceki), → (sonraki).
+
+    Önceki kodda iki ayrı addEventListener kullanılıyordu; bu gereksiz yük
+    oluşturuyordu. Tek bir handler yeterlidir.
+
+    Bağımlılıklar: modalOpen, navigatePhoto, closeModal.
+    navigatePhoto ve closeModal useCallback'e alındığı için bu effect yalnızca
+    modal açma/kapama durumunda yeniden bağlanır — gereksiz yeniden bağlanma yok.
+  */
   useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') closeModal();
-    };
-
-    const handleArrowKeys = (e: KeyboardEvent) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') { closeModal(); return; }
       if (!modalOpen) return;
       if (e.key === 'ArrowLeft') navigatePhoto(-1);
       else if (e.key === 'ArrowRight') navigatePhoto(1);
     };
 
-    window.addEventListener('keydown', handleEscape);
-    window.addEventListener('keydown', handleArrowKeys);
-    
-    return () => {
-      window.removeEventListener('keydown', handleEscape);
-      window.removeEventListener('keydown', handleArrowKeys);
-    };
-  }, [modalOpen, selectedPhoto, aktifKategori]);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [modalOpen, navigatePhoto, closeModal]);
 
   return (
     <div className="min-h-screen bg-dima-cream/50">
@@ -310,7 +353,7 @@ export default function GaleriPage() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
-            onClick={closeModal} // Modal dışına tıklandığında kapanır
+            onClick={(e) => { if (e.target === e.currentTarget) closeModal(); }}
           >
             {/* Kapat butonu */}
             <button
@@ -351,36 +394,20 @@ export default function GaleriPage() {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="relative w-full h-full max-h-[80vh] flex items-center justify-center overflow-hidden"
+              className="relative w-[90vw] h-[80vh]"
               onClick={(e) => e.stopPropagation()}
             >
               <img
                 src={getImageUrl(selectedPhoto.slug, selectedPhoto.id)}
                 alt="Galeri görseli"
-                style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
+                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
               />
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Fade-in animasyonu */}
-      <style jsx>{`
-        @keyframes fade-in {
-          from {
-            opacity: 0;
-            transform: translateY(10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        .animate-fade-in {
-          animation: fade-in 0.5s ease-out;
-        }
-      `}</style>
+      {/* animate-fade-in sınıfı globals.css'te tanımlıdır; burada tekrar tanımlamaya gerek yok. */}
     </div>
   );
 }

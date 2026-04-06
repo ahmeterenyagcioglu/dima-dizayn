@@ -1,3 +1,14 @@
+/**
+ * app/layout.tsx — Global sayfa iskelet bileşeni
+ *
+ * Next.js App Router'da tüm sayfaları saran kök layout.
+ * Görevleri:
+ *  - Sayfa genelinde geçerli fontları (<html> üzerinde CSS değişkenleri olarak) yükler
+ *  - Header, Footer ve sabit WhatsApp butonunu her sayfaya dahil eder
+ *  - SEO metadata'sını (Open Graph, Twitter Card, robots) tanımlar
+ *  - JSON-LD structured data ile Google'ın LocalBusiness şemasını besler
+ */
+
 import type { Metadata } from 'next';
 import { Playfair_Display, DM_Sans } from 'next/font/google';
 import './globals.css';
@@ -5,6 +16,12 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
 
+/*
+  Font tanımları — next/font/google ile yüklenir, böylece harici font isteği
+  olmadan Next.js sunucusu üzerinden sunulur (performans + gizlilik avantajı).
+  CSS değişkenleri (--font-playfair, --font-dm-sans) tailwind.config.js'te
+  font-serif ve font-sans olarak tanımlanmıştır.
+*/
 const playfair = Playfair_Display({
   subsets: ['latin'],
   variable: '--font-playfair',
@@ -31,7 +48,7 @@ export const metadata: Metadata = {
     siteName: 'Dima Dizayn & Organizasyon',
     images: [
       {
-        url: 'https://dimadizayn.com/hero.webp',
+        url: 'https://dimadizayn.com/gallery/assets/hero.webp',
         width: 1200,
         height: 630,
         alt: 'Dima Dizayn & Organizasyon - Bergama Organizasyon',
@@ -42,7 +59,19 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Dima Dizayn & Organizasyon | Bergama Organizasyon Firması',
     description: 'Bergama kına gecesi, nişan, düğün ve sünnet organizasyonlarında eşsiz tasarımlar.',
-    images: ['https://dimadizayn.com/hero.webp'],
+    images: ['https://dimadizayn.com/gallery/assets/hero.webp'],
+  },
+  icons: {
+    icon: [
+      { url: '/gallery/favicon/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/gallery/favicon/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/gallery/favicon/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
+      { url: '/gallery/favicon/favicon.ico' },
+    ],
+    apple: [
+      { url: '/gallery/favicon/apple-icon.png' },
+      { url: '/gallery/favicon/apple-icon-180x180.png', sizes: '180x180', type: 'image/png' },
+    ],
   },
   robots: {
     index: true,
@@ -106,7 +135,7 @@ export default function RootLayout({
               ],
               "priceRange": "$$",
               "servesCuisine": "Organizasyon Hizmetleri",
-              "image": "https://dimadizayn.com/hero.webp",
+              "image": "https://dimadizayn.com/gallery/assets/hero.webp",
               "aggregateRating": {
                 "@type": "AggregateRating",
                 "ratingValue": "5.0",

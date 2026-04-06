@@ -1,8 +1,19 @@
+/**
+ * app/hizmetlerimiz/page.tsx — Hizmetlerimiz Sayfası (/hizmetlerimiz)
+ *
+ * Bölümler:
+ *  1. Hero    — arka plan görseli (hizmetler-hero.webp) + başlık
+ *  2. Kartlar — hizmetler dizisindeki her hizmet için ikon + başlık + açıklama
+ *  3. CTA     — İletişim sayfasına yönlendirme butonu
+ *
+ * Yeni hizmet eklemek için aşağıdaki hizmetler dizisine nesne eklemek yeterlidir.
+ */
 'use client';
 
 import Link from 'next/link';
-import { 
-  Heart, 
+import YeniKonseptBanner from '@/components/YeniKonseptBanner';
+import {
+  Heart,
   Music, 
   Gift, 
   Camera, 
@@ -17,6 +28,12 @@ import {
   Crown
 } from 'lucide-react';
 
+/*
+  Hizmet kartları veri kaynağı.
+  - icon  : Lucide React ikonu (import listesine de eklenmelidir)
+  - color : İkon renk sınıfı (Tailwind text-* rengi)
+  - link  : Kart tıklandığında gidilecek URL (genellikle /galeri#slug)
+*/
 const hizmetler = [
   {
     icon: Heart,
@@ -126,7 +143,7 @@ export default function HizmetlerimizPage() {
         {/* Arka plan görseli */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url('/hizmetler-hero.webp')" }}
+          style={{ backgroundImage: "url('/gallery/assets/hizmetler-hero.webp')" }}
         />
         {/* Koyu overlay */}
         <div className="absolute inset-0 bg-black/60" />
@@ -177,6 +194,8 @@ export default function HizmetlerimizPage() {
           })}
         </div>
       </section>
+
+      <YeniKonseptBanner />
 
       {/* CTA Section */}
       <section className="bg-gradient-to-r from-gold-50 to-gold-100/50 py-16">

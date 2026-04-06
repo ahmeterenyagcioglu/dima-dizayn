@@ -1,12 +1,21 @@
+/**
+ * components/Header.tsx — Sticky Üst Navigasyon
+ *
+ * - Sayfa kaydırılsa da her zaman ekranın üstünde kalır (sticky, z-50)
+ * - Aktif sayfayı usePathname ile tespit eder ve link altına gold çizgi çizer
+ * - Masaüstü: yatay link listesi
+ * - Mobil: hamburger butonu → Framer Motion ile animasyonlu açılır menü
+ */
 'use client';
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
+/* Navigasyon linkleri — sıra ve etiket değişikliği için burası güncellenir */
 const menuItems = [
   { href: '/', label: 'Ana Sayfa' },
   { href: '/hizmetlerimiz', label: 'Hizmetlerimiz' },
@@ -28,7 +37,7 @@ export default function Header() {
           className="group flex items-center gap-2 sm:gap-3 font-serif text-xl font-semibold tracking-tight text-gray-800 transition-colors hover:text-gold-600 sm:text-2xl whitespace-nowrap"
         >
           <Image
-            src="/logo.svg"
+            src="/gallery/assets/logo.webp"
             alt="Dima Dizayn & Organizasyon"
             width={120}
             height={40}

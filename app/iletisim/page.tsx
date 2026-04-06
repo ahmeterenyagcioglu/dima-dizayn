@@ -1,6 +1,19 @@
+/**
+ * app/iletisim/page.tsx — İletişim Sayfası (/iletisim)
+ *
+ * Bölümler:
+ *  1. Hero           — arka plan görseli (contact-hero.webp) + başlık
+ *  2. İletişim Bilgileri — telefon, e-posta, adres, sosyal medya, WhatsApp CTA
+ *  3. Google Maps    — gömülü harita (sağ sütun)
+ *  4. Alt CTA        — Galeri sayfasına yönlendirme
+ *
+ * İletişim bilgilerini güncellemek için aşağıdaki sabit değişkenleri düzenle.
+ * Aynı bilgiler layout.tsx, Footer.tsx ve WhatsAppButton.tsx'te de geçmektedir.
+ */
 'use client';
 
 import Link from 'next/link';
+import YeniKonseptBanner from '@/components/YeniKonseptBanner';
 import { Phone, MapPin, MessageCircle, Instagram, Facebook, Youtube } from 'lucide-react';
 
 export default function IletisimPage() {
@@ -15,7 +28,7 @@ export default function IletisimPage() {
         {/* Arka plan görseli */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url('/contact-hero.webp')" }}
+          style={{ backgroundImage: "url('/gallery/assets/contact-hero.webp')" }}
         />
         {/* Koyu overlay */}
         <div className="absolute inset-0 bg-black/60" />
@@ -204,6 +217,8 @@ export default function IletisimPage() {
           </div>
         </div>
       </section>
+
+      <YeniKonseptBanner />
 
       {/* Alt CTA */}
       <section className="border-t border-gold-200/30 bg-white py-16">

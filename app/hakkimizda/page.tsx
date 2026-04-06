@@ -1,6 +1,18 @@
+/**
+ * app/hakkimizda/page.tsx — Hakkımızda Sayfası (/hakkimizda)
+ *
+ * Bölümler:
+ *  1. Hero             — arka plan görseli + başlık
+ *  2. Vizyon           — sol fotoğraf / sağ metin
+ *  3. İstatistikler    — 4 sayısal kart
+ *  4. Neden Biz?       — 3 madde
+ *  5. Müşteri Yorumları — Swiper slider
+ *  6. CTA              — İletişim sayfasına yönlendirme
+ */
 'use client';
 
 import Link from 'next/link';
+import YeniKonseptBanner from '@/components/YeniKonseptBanner';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { Quote, Star } from 'lucide-react';
@@ -9,56 +21,72 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-export default function HakkimizdaPage() {
-  // Müşteri yorumları
-  const [comments, setComments] = useState([
-    {
-      name: "Emine Ü.",
-      comment: "Hersey cok güzeldi hayalimdeki herseyi eksiksiz yaptıkları icin cok teşekkür ederim. Secil hanımın güler yüzü ve samimiyeti icin ayrica teşekkür ediyorum."
-    },
-    {
-      name: "Önder H.",
-      comment: "Çok memnun kaldık, güvenirlik ve kalite harikaydı,her zaman ilk seçeneğimiz oldunuz şimdiden teşekkürler."
-    },
-    {
-      name: "Egehan Ü.",
-      comment: "Ömer beye ilgisi alakası içşn teşekkür ediyoruz. Hayalimizdeki organizasyon ve müzik hizmetini bize sağladıkları için teşekkürler. Çok memnun kaldık tavsiye ederiz."
-    },
-    {
-      name: "Erbiy A.",
-      comment: "Yaptığınız organizasyon mükemmel ötesi emeğinize sağlık gelen misafirlerimizde ayriyetten teşekkür ediyor başarılarınızın devamını dilerim."
-    },
-    {
-      name: "Şevval D.",
-      comment: "Seçil Hanım bizimle çok iyi ilgilendi. Hayalimdeki konsepti hayata geçirdi. Her şey için teşekkür ederim."
-    },
-    {
-      name: "Gamze B.",
-      comment: "Tesekkür ederiz yaptığınız organizasyon muhteşemdi"
-    },
-    {
-      name: "Mehtap S.",
-      comment: "Gercekten muhtesemsiniz🙏🙏 …"
-    },
-    {
-      name: "Ayşe Ü.",
-      comment: "Tüm organizyonlarını çok beğeniyorum.Güler yüzlü hizmet ve anlayışlı tutumlularından dolayı çok teşekkür ederim."
-    },
-    {
-      name: "Dinçer A.",
-      comment: "Kaliteye ve güven e önem veriliyor teşekkürler iyi çalışmalar"
-    },
-    {
-      name: "Hakan B.",
-      comment: "Herşey için çok teşekkür ederim güzel organizasyondu."
-    }
-  ]);
+/*
+  Ham yorum verisi — bileşen dışında sabit olarak tanımlanır.
+  Bu sayede her render'da yeniden oluşturulmaz.
+  Yeni yorum eklemek için buraya satır eklemek yeterli.
+*/
+const RAW_COMMENTS = [
+  {
+    name: "Emine Ü.",
+    comment: "Hersey cok güzeldi hayalimdeki herseyi eksiksiz yaptıkları icin cok teşekkür ederim. Secil hanımın güler yüzü ve samimiyeti icin ayrica teşekkür ediyorum."
+  },
+  {
+    name: "Önder H.",
+    comment: "Çok memnun kaldık, güvenirlik ve kalite harikaydı,her zaman ilk seçeneğimiz oldunuz şimdiden teşekkürler."
+  },
+  {
+    name: "Egehan Ü.",
+    comment: "Ömer beye ilgisi alakası içşn teşekkür ediyoruz. Hayalimizdeki organizasyon ve müzik hizmetini bize sağladıkları için teşekkürler. Çok memnun kaldık tavsiye ederiz."
+  },
+  {
+    name: "Erbiy A.",
+    comment: "Yaptığınız organizasyon mükemmel ötesi emeğinize sağlık gelen misafirlerimizde ayriyetten teşekkür ediyor başarılarınızın devamını dilerim."
+  },
+  {
+    name: "Şevval D.",
+    comment: "Seçil Hanım bizimle çok iyi ilgilendi. Hayalimdeki konsepti hayata geçirdi. Her şey için teşekkür ederim."
+  },
+  {
+    name: "Gamze B.",
+    comment: "Tesekkür ederiz yaptığınız organizasyon muhteşemdi"
+  },
+  {
+    name: "Mehtap S.",
+    comment: "Gercekten muhtesemsiniz🙏🙏 …"
+  },
+  {
+    name: "Ayşe Ü.",
+    comment: "Tüm organizyonlarını çok beğeniyorum.Güler yüzlü hizmet ve anlayışlı tutumlularından dolayı çok teşekkür ederim."
+  },
+  {
+    name: "Dinçer A.",
+    comment: "Kaliteye ve güven e önem veriliyor teşekkürler iyi çalışmalar"
+  },
+  {
+    name: "Hakan B.",
+    comment: "Herşey için çok teşekkür ederim güzel organizasyondu."
+  }
+];
 
-  // Sayfa yüklendiğinde yorumları karıştır
+export default function HakkimizdaPage() {
+  /*
+    Yorumlar sayfa yüklendikten sonra istemci tarafında karıştırılır.
+
+    Neden lazy initializer değil, useEffect?
+    useState lazy initializer Next.js SSR sırasında sunucuda da çalışır.
+    Sunucu Math.random() ile bir sıra üretir, istemci farklı bir sıra üretir
+    → hydration uyumsuzluğu (Text content did not match) hatası.
+
+    useEffect yalnızca istemcide çalışır; sunucu orijinal sırayı render eder,
+    istemci de önce aynı sırayla hydrate olur, ardından useEffect devreye girip
+    karıştırır. Hydration hatası olmaz, bir kez ekstra render olur — kabul edilebilir.
+  */
+  const [comments, setComments] = useState(RAW_COMMENTS);
+
   useEffect(() => {
-    const shuffled = [...comments].sort(() => Math.random() - 0.5);
-    setComments(shuffled);
-  }, []); // Boş dependency array - sadece sayfa ilk yüklendiğinde çalışır
+    setComments([...RAW_COMMENTS].sort(() => Math.random() - 0.5));
+  }, []);
 
   return (
     <div className="min-h-screen bg-dima-cream/50">
@@ -67,7 +95,7 @@ export default function HakkimizdaPage() {
         {/* Arka plan görseli */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url('/about-hero.webp')" }}
+          style={{ backgroundImage: "url('/gallery/assets/about-hero.webp')" }}
         />
         {/* Koyu overlay */}
         <div className="absolute inset-0 bg-black/60" />
@@ -94,7 +122,7 @@ export default function HakkimizdaPage() {
           <div className="relative">
             <div className="relative aspect-[3/4] overflow-hidden rounded-xl border border-gold-200/40 shadow-lg">
               <Image
-                src="/about-vertical.webp"
+                src="/gallery/assets/about-vertical.webp"
                 alt="Dima Dizayn - Organizasyon Hazırlığı"
                 fill
                 className="object-cover"
@@ -302,6 +330,8 @@ export default function HakkimizdaPage() {
           </div>
         </div>
       </section>
+
+      <YeniKonseptBanner />
 
       {/* CTA Section */}
       <section className="border-t border-gold-200/30 bg-dima-cream/50 py-16 sm:py-20">

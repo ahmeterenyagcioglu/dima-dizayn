@@ -1,11 +1,29 @@
+/**
+ * app/page.tsx — Ana Sayfa (/)
+ *
+ * Bölümler (yukarıdan aşağıya):
+ *  1. Hero          — tam ekran arka plan görseli + slogan
+ *  2. Duyuru Bandı  — rastgele dönen rezervasyon mesajı
+ *  3. Hizmetler     — 3 hizmet kartı + hizmet bölgeleri badge'leri + SEO metni
+ *  4. Mini Galeri   — 6 fotoğraflık önizleme grid'i
+ *  5. Konum         — gömülü Google Maps
+ *
+ * 'use client' zorunlu: rastgele mesaj seçimi için useEffect kullanılıyor.
+ */
 'use client';
 
-import GallerySection from '@/components/GallerySection';
+// GallerySection bileşeni bu sayfada artık kullanılmıyor;
+// mini galeri doğrudan aşağıda inline olarak yazılmıştır.
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 
-// Duyuru mesaj havuzu
+/*
+  Duyuru bandında gösterilecek mesaj havuzu.
+  Her sayfa yüklenişinde useEffect ile rastgele biri seçilir.
+  Yeni mesaj eklemek için buraya satır eklemek yeterli.
+*/
 const ANNOUNCEMENT_MESSAGES = [
   ' 2026 Sezonu Rezervasyonlarımız Devam Ediyor! Yerinizi ayırtmayı unutmayın.',
   ' Hayallerinizi Ertelemeyin: 2026 organizasyonları için takvimimiz doluyor.',
@@ -15,11 +33,18 @@ const ANNOUNCEMENT_MESSAGES = [
 
 export default function HomePage() {
   const [announcementMessage, setAnnouncementMessage] = useState('');
+  const [yeniKonseptFotolar, setYeniKonseptFotolar] = useState<number[]>([1, 2, 5]);
+  const yeniKonseptRef = useRef(null);
+  const yeniKonseptInView = useInView(yeniKonseptRef, { once: true, margin: '-80px' });
 
   useEffect(() => {
-    // Rastgele mesaj seç
     const randomIndex = Math.floor(Math.random() * ANNOUNCEMENT_MESSAGES.length);
     setAnnouncementMessage(ANNOUNCEMENT_MESSAGES[randomIndex]);
+
+    // 1-8 arasından rastgele 3 farklı fotoğraf seç
+    const tumFotolar = [1, 2, 3, 4, 5, 6, 7, 8];
+    const karisik = [...tumFotolar].sort(() => Math.random() - 0.5);
+    setYeniKonseptFotolar(karisik.slice(0, 3));
   }, []);
 
   return (
@@ -37,7 +62,7 @@ export default function HomePage() {
         {/* Arka plan görseli - Next.js Image ile optimize */}
         <div className="absolute inset-0">
           <Image
-            src="/hero.webp"
+            src="/gallery/assets/hero.webp"
             alt="Dima Dizayn Bergama Organizasyon"
             fill
             priority
@@ -166,6 +191,34 @@ export default function HomePage() {
               </svg>
               <span className="whitespace-nowrap">Kozak Yaylası</span>
             </div>
+            <div className="group inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm font-medium text-gray-700 transition-colors duration-300 cursor-default">
+              <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span>Soma</span>
+            </div>
+            <div className="group inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm font-medium text-gray-700 transition-colors duration-300 cursor-default">
+              <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span>Manisa</span>
+            </div>
+            <div className="group inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm font-medium text-gray-700 transition-colors duration-300 cursor-default">
+              <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span>Ege Bölgesi</span>
+            </div>
+            <div className="group inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm font-medium text-gray-700 transition-colors duration-300 cursor-default">
+              <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span>Akhisar</span>
+            </div>
           </div>
           
           {/* SEO Metni - Callout Kutusu */}
@@ -175,12 +228,124 @@ export default function HomePage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <p className="text-sm text-gray-700 leading-relaxed">
-                <span className="font-semibold">Bergama</span> başta olmak üzere <span className="font-semibold">Dikili</span>, <span className="font-semibold">Kınık</span> ve <span className="font-semibold">Kozak Yaylası</span> gibi çevre ilçeler ve köylerde de yanınızdayız. İzmir'in her köşesinde; <span className="font-semibold">düğün</span>, <span className="font-semibold">nişan</span> ve <span className="font-semibold">sünnet</span> organizasyonlarınız için profesyonel ekipmanlarımız ve özgün konseptlerimizle hayallerinizi gerçeğe dönüştürüyoruz. Bergama organizasyon firmaları arasında bölgeyi tanıyan, çevre köy ve ilçelere hakim tecrübemizle en özel günlerinizi kusursuz kılıyoruz.
+                <span className="font-semibold">Bergama</span> başta olmak üzere <span className="font-semibold">Dikili</span>, <span className="font-semibold">Kınık</span>, <span className="font-semibold">Kozak Yaylası</span>, <span className="font-semibold">Soma</span>, <span className="font-semibold">Manisa</span>, <span className="font-semibold">Ege Bölgesi</span> ve <span className="font-semibold">Akhisar</span> gibi çevre ilçeler ve bölgelerde de yanınızdayız. İzmir ve Manisa'nın her köşesinde; <span className="font-semibold">düğün</span>, <span className="font-semibold">nişan</span> ve <span className="font-semibold">sünnet</span> organizasyonlarınız için profesyonel ekipmanlarımız ve özgün konseptlerimizle hayallerinizi gerçeğe dönüştürüyoruz. Bölgeyi tanıyan, çevre ilçelere hakim tecrübemizle en özel günlerinizi kusursuz kılıyoruz.
               </p>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Yeni Konseptlerimiz */}
+      {(
+          <section ref={yeniKonseptRef} className="relative overflow-hidden bg-gray-950 py-14 sm:py-20">
+            {/* Arka plan parıltısı */}
+            <div className="pointer-events-none absolute inset-0">
+              <div className="absolute -left-20 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-gold-500/10 blur-3xl" />
+              <div className="absolute -right-20 bottom-0 h-72 w-72 rounded-full bg-gold-400/10 blur-3xl" />
+            </div>
+
+            <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+              {/* Başlık */}
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                animate={yeniKonseptInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6 }}
+                className="mb-10 flex flex-col items-center text-center"
+              >
+                <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-gold-400/40 bg-gold-400/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-gold-300">
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold-400 opacity-75" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-gold-400" />
+                  </span>
+                  Yeni
+                </span>
+                <h2 className="font-serif text-3xl font-semibold text-white sm:text-4xl md:text-5xl">
+                  Yeni Konseptlerimiz
+                </h2>
+                <p className="mt-4 max-w-xl text-sm text-gray-400 sm:text-base">
+                  Taze fikirler, özgün tasarımlar — en yeni konsept çalışmalarımızdan ilk bakış
+                </p>
+              </motion.div>
+
+              {/* Asimetrik grid: büyük sol + 3 küçük sağ */}
+              <motion.div
+                initial={{ opacity: 0, y: 32 }}
+                animate={yeniKonseptInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.7, delay: 0.15 }}
+                className="grid grid-cols-2 grid-rows-2 gap-3 sm:grid-cols-3 sm:gap-4"
+              >
+                {/* Büyük fotoğraf */}
+                <Link
+                  href="/galeri#yeni-konseptler"
+                  className="group relative col-span-2 row-span-2 overflow-hidden rounded-2xl sm:col-span-2 aspect-[4/3]"
+                >
+                  <Image
+                    src={`/gallery/yeni-konseptler/${yeniKonseptFotolar[0]}.webp`}
+                    alt="Yeni Konsept - Bergama Dima Dizayn"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="(max-width: 640px) 100vw, 66vw"
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                  <div className="absolute bottom-4 left-4">
+                    <span className="rounded-full bg-gold-500 px-3 py-1 text-xs font-bold uppercase tracking-widest text-white">
+                      Yeni Sezon
+                    </span>
+                  </div>
+                </Link>
+
+                {/* Küçük fotoğraf 1 */}
+                <Link
+                  href="/galeri#yeni-konseptler"
+                  className="group relative overflow-hidden rounded-2xl aspect-[4/3]"
+                >
+                  <Image
+                    src={`/gallery/yeni-konseptler/${yeniKonseptFotolar[1]}.webp`}
+                    alt="Yeni Konsept - Bergama Dima Dizayn"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="(max-width: 640px) 50vw, 33vw"
+                  />
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300" />
+                </Link>
+
+                {/* Küçük fotoğraf 2 */}
+                <Link
+                  href="/galeri#yeni-konseptler"
+                  className="group relative overflow-hidden rounded-2xl aspect-[4/3]"
+                >
+                  <Image
+                    src={`/gallery/yeni-konseptler/${yeniKonseptFotolar[2]}.webp`}
+                    alt="Yeni Konsept - Bergama Dima Dizayn"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="(max-width: 640px) 50vw, 33vw"
+                  />
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300" />
+                </Link>
+              </motion.div>
+
+              {/* CTA */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={yeniKonseptInView ? { opacity: 1 } : {}}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="mt-8 text-center"
+              >
+                <Link
+                  href="/galeri#yeni-konseptler"
+                  className="inline-flex items-center gap-2 rounded-full bg-gold-500 px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-gold-500/30 transition-all duration-300 hover:bg-gold-400 hover:shadow-gold-400/40 hover:-translate-y-0.5"
+                >
+                  Tüm yeni konseptleri keşfet
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </Link>
+              </motion.div>
+            </div>
+          </section>
+      )}
 
       {/* Mutlu Anlardan Kareler - Grid Galeri (tıklayınca büyür) */}
       <section className="border-t border-gold-200/30 bg-dima-cream/50 py-12 sm:py-16">
@@ -197,7 +362,7 @@ export default function HomePage() {
               <div className="group relative overflow-hidden rounded-xl border border-gold-200/40 bg-dima-cream/50 shadow-md transition-all duration-300 hover:shadow-lg hover:border-gold-300/60 w-full">
                 <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
                   <Image
-                    src="/gallery/1.webp"
+                    src="/gallery/anasayfa/1.webp"
                     alt="Kına Organizasyonu - Bergama Dima Dizayn"
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -222,7 +387,7 @@ export default function HomePage() {
               <div className="group relative overflow-hidden rounded-xl border border-gold-200/40 bg-dima-cream/50 shadow-md transition-all duration-300 hover:shadow-lg hover:border-gold-300/60 w-full">
                 <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
                   <Image
-                    src="/gallery/2.webp"
+                    src="/gallery/anasayfa/2.webp"
                     alt="Nişan Organizasyonu - Bergama Dima Dizayn"
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -247,7 +412,7 @@ export default function HomePage() {
               <div className="group relative overflow-hidden rounded-xl border border-gold-200/40 bg-dima-cream/50 shadow-md transition-all duration-300 hover:shadow-lg hover:border-gold-300/60 w-full">
                 <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
                   <Image
-                    src="/gallery/3.webp"
+                    src="/gallery/anasayfa/3.webp"
                     alt="Sünnet Organizasyonu - Bergama Dima Dizayn"
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -272,7 +437,7 @@ export default function HomePage() {
               <div className="group relative overflow-hidden rounded-xl border border-gold-200/40 bg-dima-cream/50 shadow-md transition-all duration-300 hover:shadow-lg hover:border-gold-300/60 w-full">
                 <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
                   <Image
-                    src="/gallery/4.webp"
+                    src="/gallery/anasayfa/4.webp"
                     alt="Düğün & Nikah Organizasyonu - Bergama Dima Dizayn"
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -297,7 +462,7 @@ export default function HomePage() {
               <div className="group relative overflow-hidden rounded-xl border border-gold-200/40 bg-dima-cream/50 shadow-md transition-all duration-300 hover:shadow-lg hover:border-gold-300/60 w-full">
                 <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
                   <Image
-                    src="/gallery/5.webp"
+                    src="/gallery/anasayfa/5.webp"
                     alt="Müzik & Ses Sistemleri - Bergama Dima Dizayn"
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -322,7 +487,7 @@ export default function HomePage() {
               <div className="group relative overflow-hidden rounded-xl border border-gold-200/40 bg-dima-cream/50 shadow-md transition-all duration-300 hover:shadow-lg hover:border-gold-300/60 w-full">
                 <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
                   <Image
-                    src="/gallery/6.webp"
+                    src="/gallery/anasayfa/6.webp"
                     alt="Fotoğraf & Video Çekimi - Bergama Dima Dizayn"
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
