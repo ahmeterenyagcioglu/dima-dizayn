@@ -1,3 +1,15 @@
+/**
+ * components/WhatsAppButton.tsx — Sabit WhatsApp CTA Butonu
+ *
+ * Ekranın sağ alt köşesinde her sayfada görünür (layout.tsx'te global olarak eklenir).
+ * Sayfa yüklendikten 3 saniye sonra rastgele bir çağrı-eylem mesajı içeren
+ * tooltip gösterir. Kullanıcı tooltip'i kapatabilir.
+ *
+ * Neden mounted state?
+ * SSR sırasında window yoktur; Math.random() sunucu/istemci arasında farklı
+ * sonuç üretir ve hydration hatası yaratır. mounted=false iken null dönerek
+ * bu bileşenin yalnızca istemci tarafında render edilmesi sağlanır.
+ */
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -6,7 +18,10 @@ import { X } from 'lucide-react';
 const WHATSAPP_NUMBER = '905353679931';
 const PRESET_MESSAGE = 'Merhaba Dima Dizayn, organizasyon hizmetleriniz hakkında bilgi almak istiyorum.';
 
-// Mesaj havuzu
+/*
+  Tooltip mesaj havuzu.
+  Yeni mesaj eklemek için buraya satır eklemek yeterli.
+*/
 const MESSAGES = [
   'Ücretsiz konsept danışmanlığı için bir kahveye bekleriz! ☕',
   'Hayalinizdeki organizasyon için hemen WhatsApp\'tan teklif alın. ✅',
@@ -90,23 +105,7 @@ export default function WhatsAppButton() {
         <WhatsAppIcon className="h-8 w-8" />
       </a>
 
-      {/* Animasyon stil */}
-      <style jsx>{`
-        @keyframes fade-in {
-          from {
-            opacity: 0;
-            transform: translateY(10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        .animate-fade-in {
-          animation: fade-in 0.3s ease-out;
-        }
-      `}</style>
+      {/* animate-fade-in sınıfı globals.css'te tanımlıdır; burada tekrar tanımlamaya gerek yok. */}
     </>
   );
 }

@@ -12,82 +12,87 @@
 'use client';
 
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import YeniKonseptBanner from '@/components/YeniKonseptBanner';
+import TeklifAlButton from '@/components/TeklifAlButton';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
-import { Quote, Star } from 'lucide-react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
+import { useState, useEffect, useRef } from 'react';
 
-/*
-  Ham yorum verisi — bileşen dışında sabit olarak tanımlanır.
-  Bu sayede her render'da yeniden oluşturulmaz.
-  Yeni yorum eklemek için buraya satır eklemek yeterli.
-*/
-const RAW_COMMENTS = [
-  {
-    name: "Emine Ü.",
-    comment: "Hersey cok güzeldi hayalimdeki herseyi eksiksiz yaptıkları icin cok teşekkür ederim. Secil hanımın güler yüzü ve samimiyeti icin ayrica teşekkür ediyorum."
-  },
-  {
-    name: "Önder H.",
-    comment: "Çok memnun kaldık, güvenirlik ve kalite harikaydı,her zaman ilk seçeneğimiz oldunuz şimdiden teşekkürler."
-  },
-  {
-    name: "Egehan Ü.",
-    comment: "Ömer beye ilgisi alakası içşn teşekkür ediyoruz. Hayalimizdeki organizasyon ve müzik hizmetini bize sağladıkları için teşekkürler. Çok memnun kaldık tavsiye ederiz."
-  },
-  {
-    name: "Erbiy A.",
-    comment: "Yaptığınız organizasyon mükemmel ötesi emeğinize sağlık gelen misafirlerimizde ayriyetten teşekkür ediyor başarılarınızın devamını dilerim."
-  },
-  {
-    name: "Şevval D.",
-    comment: "Seçil Hanım bizimle çok iyi ilgilendi. Hayalimdeki konsepti hayata geçirdi. Her şey için teşekkür ederim."
-  },
-  {
-    name: "Gamze B.",
-    comment: "Tesekkür ederiz yaptığınız organizasyon muhteşemdi"
-  },
-  {
-    name: "Mehtap S.",
-    comment: "Gercekten muhtesemsiniz🙏🙏 …"
-  },
-  {
-    name: "Ayşe Ü.",
-    comment: "Tüm organizyonlarını çok beğeniyorum.Güler yüzlü hizmet ve anlayışlı tutumlularından dolayı çok teşekkür ederim."
-  },
-  {
-    name: "Dinçer A.",
-    comment: "Kaliteye ve güven e önem veriliyor teşekkürler iyi çalışmalar"
-  },
-  {
-    name: "Hakan B.",
-    comment: "Herşey için çok teşekkür ederim güzel organizasyondu."
-  }
-];
+const TestimonialsSlider = dynamic(() => import('@/components/TestimonialsSlider'), {
+  loading: () => <div className="mt-12 h-48 animate-pulse rounded-xl bg-gray-100" />,
+  ssr: false,
+});
 
-export default function HakkimizdaPage() {
-  /*
-    Yorumlar sayfa yüklendikten sonra istemci tarafında karıştırılır.
-
-    Neden lazy initializer değil, useEffect?
-    useState lazy initializer Next.js SSR sırasında sunucuda da çalışır.
-    Sunucu Math.random() ile bir sıra üretir, istemci farklı bir sıra üretir
-    → hydration uyumsuzluğu (Text content did not match) hatası.
-
-    useEffect yalnızca istemcide çalışır; sunucu orijinal sırayı render eder,
-    istemci de önce aynı sırayla hydrate olur, ardından useEffect devreye girip
-    karıştırır. Hydration hatası olmaz, bir kez ekstra render olur — kabul edilebilir.
-  */
-  const [comments, setComments] = useState(RAW_COMMENTS);
+function useCountUp(target: number, duration = 1800) {
+  const [count, setCount] = useState(0);
+  const [triggered, setTriggered] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setComments([...RAW_COMMENTS].sort(() => Math.random() - 0.5));
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setTriggered(true); observer.disconnect(); } },
+      { threshold: 0.4 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    if (!triggered) return;
+    let start: number | null = null;
+    const step = (timestamp: number) => {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1);
+      // easeOutQuart
+      const eased = 1 - Math.pow(1 - progress, 4);
+      setCount(Math.floor(eased * target));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, [triggered, target, duration]);
+
+  return { count, ref };
+}
+
+
+const STATS = [
+  { target: 500, suffix: '+', label: 'Mutlu Müşteri' },
+  { target: 5,   suffix: '+', label: 'Yıl Deneyim' },
+  { target: 200, suffix: '+', label: 'Başarılı Organizasyon' },
+  { target: 40,  suffix: '+', label: 'Özgün Konsept' },
+];
+
+function StatItem({ target, suffix, label }: { target: number; suffix: string; label: string }) {
+  const { count, ref } = useCountUp(target);
+  return (
+    <div ref={ref} className="text-center">
+      <div className="font-serif text-4xl font-bold text-gold-600 sm:text-5xl lg:text-6xl">
+        {count}{suffix}
+      </div>
+      <p className="mt-2 text-sm font-medium text-gray-600 sm:text-base lg:text-lg">
+        {label}
+      </p>
+    </div>
+  );
+}
+
+function StatSection() {
+  return (
+    <section className="border-t border-gold-200/30 bg-white py-16 sm:py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-2 gap-8 sm:grid-cols-4 lg:gap-12">
+          {STATS.map((s) => (
+            <StatItem key={s.label} target={s.target} suffix={s.suffix} label={s.label} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default function HakkimizdaPage() {
   return (
     <div className="min-h-screen bg-dima-cream/50">
       {/* Hero Section */}
@@ -157,51 +162,7 @@ export default function HakkimizdaPage() {
       </section>
 
       {/* İstatistikler Bölümü */}
-      <section className="border-t border-gold-200/30 bg-white py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-4 lg:gap-12">
-            {/* 500+ Mutlu Müşteri */}
-            <div className="text-center">
-              <div className="font-serif text-4xl font-bold text-gold-600 sm:text-5xl lg:text-6xl">
-                500+
-              </div>
-              <p className="mt-2 text-sm font-medium text-gray-600 sm:text-base lg:text-lg">
-                Mutlu Müşteri
-              </p>
-            </div>
-
-            {/* 5+ Yıl Deneyim */}
-            <div className="text-center">
-              <div className="font-serif text-4xl font-bold text-gold-600 sm:text-5xl lg:text-6xl">
-                5+
-              </div>
-              <p className="mt-2 text-sm font-medium text-gray-600 sm:text-base lg:text-lg">
-                Yıl Deneyim
-              </p>
-            </div>
-
-            {/* 200+ Başarılı Organizasyon */}
-            <div className="text-center">
-              <div className="font-serif text-4xl font-bold text-gold-600 sm:text-5xl lg:text-6xl">
-                200+
-              </div>
-              <p className="mt-2 text-sm font-medium text-gray-600 sm:text-base lg:text-lg">
-                Başarılı Organizasyon
-              </p>
-            </div>
-
-            {/* 40+ Özgün Konsept */}
-            <div className="text-center">
-              <div className="font-serif text-4xl font-bold text-gold-600 sm:text-5xl lg:text-6xl">
-                40+
-              </div>
-              <p className="mt-2 text-sm font-medium text-gray-600 sm:text-base lg:text-lg">
-                Özgün Konsept
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <StatSection />
 
       {/* Neden Biz? */}
       <section className="border-t border-gold-200/30 bg-white py-16 sm:py-20">
@@ -263,71 +224,7 @@ export default function HakkimizdaPage() {
             Müşterilerimizden Notlar
           </h2>
           
-          {/* Swiper Slider */}
-          <div className="mt-12 pb-16 px-12 md:px-16">
-            <Swiper
-              modules={[Navigation]}
-              spaceBetween={16}
-              slidesPerView={1.2}
-              grabCursor={true}
-              simulateTouch={true}
-              allowTouchMove={true}
-              centeredSlides={false}
-              navigation={true}
-              breakpoints={{
-                768: {
-                  slidesPerView: 2.2,
-                  spaceBetween: 20,
-                },
-                1024: {
-                  slidesPerView: 3,
-                  spaceBetween: 30,
-                },
-              }}
-              className="testimonials-swiper"
-            >
-              {comments.map((comment, index) => (
-                <SwiperSlide key={index}>
-                  <div className="bg-gray-50 rounded-lg p-6 border border-gold-200/40 shadow-sm md:shadow-md flex flex-col h-full justify-between w-full">
-                    <div className="flex items-start space-x-3 flex-1">
-                      {/* Avatar */}
-                      <div className="flex-shrink-0 w-12 h-12 bg-gold-100 rounded-full flex items-center justify-center">
-                        <span className="text-gold-600 font-semibold text-lg">
-                          {comment.name.charAt(0)}
-                        </span>
-                      </div>
-                      
-                      {/* İçerik */}
-                      <div className="flex-1 min-w-0 flex flex-col">
-                        {/* Quote Icon */}
-                        <Quote className="h-5 w-5 text-gold-400 mb-2" />
-                        
-                        {/* Yorum */}
-                        <p className="text-sm text-gray-700 leading-relaxed flex-1">
-                          "{comment.comment}"
-                        </p>
-                        
-                        {/* Footer Alanı - Name & Stars */}
-                        <div className="mt-auto pt-4">
-                          {/* İsim */}
-                          <p className="text-sm font-medium text-gray-900 mb-2">
-                            {comment.name}
-                          </p>
-                          
-                          {/* 5 Yıldız */}
-                          <div className="flex">
-                            {[...Array(5)].map((_, i) => (
-                              <Star key={i} className="h-4 w-4 text-gold-400 fill-current" />
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
+          <TestimonialsSlider />
         </div>
       </section>
 
@@ -342,10 +239,11 @@ export default function HakkimizdaPage() {
           <p className="mt-4 text-lg text-dima-grey">
             Özel gününüzü unutulmaz kılmak için sizinle tanışmayı bekliyoruz.
           </p>
-          <div className="mt-8">
+          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            <TeklifAlButton className="text-base sm:text-lg px-8 sm:px-10 py-3 sm:py-4" />
             <Link
               href="/iletisim"
-              className="inline-flex items-center justify-center rounded-lg border border-gold-400 bg-gold-400 px-8 py-3 text-base font-medium text-white transition-all hover:bg-gold-500 hover:border-gold-500 hover:shadow-lg sm:px-10 sm:py-4 sm:text-lg"
+              className="inline-flex items-center justify-center rounded-full border-2 border-gold-500 px-8 py-3 text-base font-semibold text-gold-600 transition-all hover:bg-gold-50 hover:scale-105 hover:shadow-lg sm:px-10 sm:py-4 sm:text-lg"
             >
               İletişime Geçin
             </Link>
@@ -353,43 +251,6 @@ export default function HakkimizdaPage() {
         </div>
       </section>
 
-      {/* Swiper Navigation Styles */}
-      <style jsx global>{`
-        .swiper-button-prev,
-        .swiper-button-next {
-          color: white;
-          background: rgba(251, 191, 36, 0.8);
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          transition: all 0.3s ease;
-          backdrop-filter: blur(4px);
-        }
-
-        .swiper-button-prev:hover,
-        .swiper-button-next:hover {
-          background: rgba(245, 158, 11, 0.9);
-          transform: scale(1.1);
-        }
-
-        .swiper-button-prev::after,
-        .swiper-button-next::after {
-          display: none;
-        }
-
-        .testimonials-swiper {
-          padding: 0 0px;
-        }
-
-        .testimonials-swiper .swiper-slide {
-          opacity: 1;
-          transition: none;
-        }
-
-        .testimonials-swiper .swiper-slide-active {
-          opacity: 1;
-        }
-      `}</style>
     </div>
   );
 }

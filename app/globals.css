@@ -14,7 +14,7 @@ body {
   @apply bg-dima-cream text-gray-800 antialiased;
 }
 
-/* Gold underline hover effect */
+/* Altın rengi underline hover efekti — navigasyon linklerinde kullanılır */
 .link-gold {
   @apply relative;
 }
@@ -24,4 +24,25 @@ body {
 }
 .link-gold:hover::after {
   @apply w-full;
+}
+
+/*
+  Aşağı kayarak görünme animasyonu.
+  WhatsAppButton tooltip'i ve galeri kategori kartları bu sınıfı kullanır.
+  Önceden her iki bileşende de <style jsx> ile tekrar tekrar tanımlanıyordu;
+  buraya taşıyarak kod tekrarı ortadan kaldırıldı.
+*/
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s ease-out;
 }

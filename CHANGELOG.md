@@ -1,5 +1,98 @@
 # Dima Dizayn & Organizasyon - Versiyon Değişiklikleri
 
+## v2026.04.08.9 - 08.04.2026
+
+### ✨ UX, SEO & PWA
+- **Sayfa geçiş animasyonu**: `app/template.tsx` ile sayfalar arası fade+slide geçişi (Framer Motion)
+- **PWA manifest**: `public/manifest.json` oluşturuldu — Android/Chrome'da "Ana Ekrana Ekle" desteği, altın tema rengi
+- **Per-page Open Graph**: Hakkımızda, Hizmetlerimiz, Galeri, İletişim sayfaları kendi hero görseli ve açıklamasıyla OG meta etiketleri aldı
+- **Sayfa layout'ları**: Tüm sayfalarda tam title (ör. "Galeri | Dima Dizayn & Organizasyon") ayarlandı
+- **"Teklif Al" → "Bilgi Al"**: WA buton metni ve mesajı güncellendi — daha samimi ve erişilebilir
+- **SSS CTA**: "WhatsApp ile Sorun" butonu kaldırıldı, diğer sayfalarla tutarlı "Bilgi Al" butonu eklendi
+- **Anasayfa mini galeri**: Fotoğraf açıklamaları artık hover beklemeden hep görünür
+
+---
+
+## v2026.04.08.8 - 08.04.2026
+
+### 🔍 SEO & Cookie
+- **FAQ JSON-LD**: SSS sayfasına `FAQPage` schema eklendi — Google arama sonuçlarında sorular doğrudan görünebilir
+- **SSS robots**: `noindex` → `index:true` yapıldı, Google artık sayfayı indexleyebilir
+- **Cookie Banner**: İlk ziyarette altta çıkan KVKK uyumlu banner, tercih localStorage'da saklanıyor
+- **GA4**: Measurement ID bekleniyor
+
+---
+
+## v2026.04.08.7 - 08.04.2026
+
+### 🔒 KVKK & Çeşitli Geliştirmeler
+- **KVKK sayfası** eklendi (`/kvkk`) — 7 bölüm: veri sorumlusu, toplanan veriler, amaç, saklama, çerezler, haklar, güncellemeler
+- **Footer'a** KVKK linki eklendi
+- **Sitemap güncellendi** — /hizmetlerimiz, /sss, /kvkk eklendi, tarihler güncellendi
+- **Instagram skeleton** — feed yüklenirken animate-pulse iskelet gösteriliyor
+- **Galeri "Tümünü Göster"** — her kategoride limitin üstünde fotoğraf varsa buton çıkıyor, tıklanınca tümü görünüyor
+- **SSS menüye eklendi** — Header'da "S.S.S." linki eklendi
+
+---
+
+## v2026.04.08.6 - 08.04.2026
+
+### 📸 Instagram Feed
+- **Behold.so entegrasyonu**: Ana sayfada son 9 Instagram gönderisi otomatik çekiliyor
+- Kare grid (3 sütun), hover'da Instagram ikonu beliriyor
+- Tıklanınca Instagram paylaşımına gidiyor
+- "@dimadzyn" ve "Instagram'da Takip Et" butonu
+
+---
+
+## v2026.04.08.5 - 08.04.2026
+
+### ❓ SSS Sayfası
+- `/sss` URL'sinde erişilebilir, menüye eklenmedi
+- 10 soru accordion (akordiyon) düzeninde, tıklanınca açılır/kapanır
+- Sayfa Google'a indexlenmez (`robots: noindex`)
+- Alt CTA: WhatsApp + İletişim Formu
+
+---
+
+## v2026.04.08.4 - 08.04.2026
+
+### 🖼️ Lightbox & Scroll-to-Top
+- **Ana Sayfa Lightbox**: "Mutlu Anlardan Kareler" mini galerisindeki 6 fotoğraf tıklanınca büyük açılır; "Galeriye Git" butonu ile ilgili kategoriye yönlendirme
+- **ScrollToTop**: 350px scroll sonrası sağ altta gold yukarı ok butonu çıkar, tüm sayfalarda geçerli (layout.tsx'e eklendi)
+- **Not**: Galeri sayfasında lightbox zaten mevcuttu
+
+---
+
+## v2026.04.08.3 - 08.04.2026
+
+### 📲 Teklif Al Butonu
+- **TeklifAlButton komponenti** oluşturuldu (`components/TeklifAlButton.tsx`)
+- Ana sayfa hero bölümüne, Hizmetlerimiz CTA'sına, Galeri alt bölümüne ve Hakkımızda CTA'sına eklendi
+- Tıklanınca WhatsApp açılır, mesaj otomatik dolu gelir
+
+---
+
+## v2026.04.08.2 - 08.04.2026
+
+### 🔢 Sayım Animasyonu
+- **Hakkımızda İstatistikleri**: 500+, 5+, 200+, 40+ sayaçları sayfaya scroll edilince sıfırdan sayarak gelir
+- **IntersectionObserver**: Bölüm ekrana girdiğinde tetiklenir, easeOutQuart easing ile akıcı animasyon
+- **SSR Uyumlu**: Her stat kendi `StatItem` bileşeninde, hydration sorunu yok
+
+---
+
+## v2026.04.08.1 - 08.04.2026
+
+### ✉️ İletişim Formu
+- **Formspree Entegrasyonu**: İletişim sayfasına çift kanallı iletişim formu eklendi
+- **E-posta Bildirimi**: Form gönderildiğinde `bilgi@dimadizayn.com` adresine otomatik e-posta gönderimi (Formspree)
+- **WhatsApp Gönderimi**: Form verilerini otomatik WhatsApp mesajına dönüştüren ikinci buton eklendi
+- **Form Alanları**: Ad Soyad, Telefon, E-posta (isteğe bağlı), Organizasyon Türü, Tahmini Tarih, Mesaj
+- **UX**: Gönderim durumu (yükleniyor, başarılı, hata) için görsel geri bildirim eklendi
+
+---
+
 ## v2026.02.11.1 - 11.02.2026
 
 ### ⚡ PageSpeed Performans Optimizasyonları

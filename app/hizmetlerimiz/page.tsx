@@ -12,6 +12,7 @@
 
 import Link from 'next/link';
 import YeniKonseptBanner from '@/components/YeniKonseptBanner';
+import TeklifAlButton from '@/components/TeklifAlButton';
 import {
   Heart,
   Music, 
@@ -206,12 +207,15 @@ export default function HizmetlerimizPage() {
           <p className="mt-4 text-lg text-dima-grey">
             Bizimle İletişime Geçin
           </p>
-          <Link
-            href="/iletisim"
-            className="mt-8 inline-flex items-center justify-center rounded-full bg-gold-500 px-8 py-4 text-lg font-semibold text-white transition-all duration-300 hover:bg-gold-600 hover:scale-105 hover:shadow-lg"
-          >
-            İletişime Geç
-          </Link>
+          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            <TeklifAlButton className="text-lg px-8 py-4" />
+            <Link
+              href="/iletisim"
+              className="inline-flex items-center justify-center rounded-full border-2 border-gold-500 px-8 py-4 text-lg font-semibold text-gold-600 transition-all duration-300 hover:bg-gold-50 hover:scale-105 hover:shadow-lg"
+            >
+              İletişime Geçin
+            </Link>
+          </div>
         </div>
       </section>
     </div>

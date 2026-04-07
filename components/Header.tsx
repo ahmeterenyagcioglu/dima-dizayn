@@ -21,6 +21,7 @@ const menuItems = [
   { href: '/hizmetlerimiz', label: 'Hizmetlerimiz' },
   { href: '/galeri', label: 'Galeri' },
   { href: '/hakkimizda', label: 'Hakkımızda' },
+  { href: '/sss', label: 'S.S.S.' },
   { href: '/iletisim', label: 'İletişim' },
 ];
 

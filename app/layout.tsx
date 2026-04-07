@@ -15,6 +15,8 @@ import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
+import ScrollToTop from '@/components/ScrollToTop';
+import CookieBanner from '@/components/CookieBanner';
 
 /*
   Font tanımları — next/font/google ile yüklenir, böylece harici font isteği
@@ -87,6 +89,7 @@ export const metadata: Metadata = {
   verification: {
     google: 'UYYkUnQ81AE42fT4X9KVt8ZcILYB-r0beoy974HyvsI',
   },
+  manifest: '/manifest.json',
 };
 
 export default function RootLayout({
@@ -101,6 +104,8 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         <WhatsAppButton />
+        <ScrollToTop />
+        <CookieBanner />
         
         {/* JSON-LD Structured Data */}
         <script

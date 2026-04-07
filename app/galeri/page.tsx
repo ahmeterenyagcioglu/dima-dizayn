@@ -16,8 +16,10 @@
 
 // useMemo kullanılmıyor; ilerleyen düzenlemelerde ihtiyaç duyulursa eklenir.
 import { useState, useEffect, useCallback } from 'react';
+import Link from 'next/link';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import TeklifAlButton from '@/components/TeklifAlButton';
 
 /*
   Galeri veri kaynağı — tüm fotoğraflar burada tanımlanır.
@@ -121,6 +123,7 @@ export default function GaleriPage() {
   const [aktifKategori, setAktifKategori] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'all' | 'konseptler' | 'hizmetler'>('all');
+  const [expandedSlugs, setExpandedSlugs] = useState<Set<string>>(new Set());
   const [shuffledPhotosByCategory, setShuffledPhotosByCategory] = useState<{ [key: string]: { slug: string; id: number }[] }>({});
 
   // URL hash takip sistemi
@@ -180,7 +183,15 @@ export default function GaleriPage() {
 
   const getKategoriFotolari = (slug: string, limit: number) => {
     const shuffled = shuffledPhotosByCategory[slug] || [];
-    return shuffled.slice(0, limit);
+    return expandedSlugs.has(slug) ? shuffled : shuffled.slice(0, limit);
+  };
+
+  const toggleExpand = (slug: string) => {
+    setExpandedSlugs(prev => {
+      const next = new Set(prev);
+      next.has(slug) ? next.delete(slug) : next.add(slug);
+      return next;
+    });
   };
 
   // Tab'e göre kategorileri filtrele
@@ -310,12 +321,15 @@ export default function GaleriPage() {
         {/* Kategori Grid */}
         <div className="grid gap-8 sm:gap-10 md:gap-12">
           {getFilteredCategories().map(({ slug, title, limit }) => {
+            const tumFotolar = shuffledPhotosByCategory[slug] || [];
             const fotolar = getKategoriFotolari(slug, limit);
             if (fotolar.length === 0) return null;
-            
+            const isExpanded = expandedSlugs.has(slug);
+            const hasMore = tumFotolar.length > limit;
+
             return (
               <div key={slug} className="animate-fade-in h-auto">
-                <h2 
+                <h2
                   id={slug}
                   className="font-serif text-2xl font-semibold text-gray-800 sm:text-3xl border-b border-gold-200/50 pb-2"
                   style={{ scrollMarginTop: '130px' }}
@@ -339,6 +353,19 @@ export default function GaleriPage() {
                     </button>
                   ))}
                 </div>
+                {hasMore && (
+                  <div className="mt-4 text-center">
+                    <button
+                      type="button"
+                      onClick={() => toggleExpand(slug)}
+                      className="inline-flex items-center gap-2 rounded-full border border-gold-400 px-6 py-2 text-sm font-medium text-gold-600 transition-all duration-300 hover:bg-gold-50 hover:scale-105"
+                    >
+                      {isExpanded
+                        ? `Daha az göster`
+                        : `Tümünü Göster (${tumFotolar.length})`}
+                    </button>
+                  </div>
+                )}
               </div>
             );
           })}
@@ -408,6 +435,27 @@ export default function GaleriPage() {
       </AnimatePresence>
 
       {/* animate-fade-in sınıfı globals.css'te tanımlıdır; burada tekrar tanımlamaya gerek yok. */}
+
+      {/* Teklif CTA */}
+      <section className="border-t border-gold-200/30 bg-gradient-to-r from-gold-50 to-gold-100/50 py-14">
+        <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+          <h2 className="font-serif text-2xl font-semibold text-gray-800 sm:text-3xl">
+            Beğendiğiniz bir konsept mi var?
+          </h2>
+          <p className="mt-3 text-dima-grey">
+            WhatsApp üzerinden hızlıca fiyat teklifi alın.
+          </p>
+          <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            <TeklifAlButton className="text-base px-8 py-4" />
+            <Link
+              href="/iletisim"
+              className="inline-flex items-center justify-center rounded-full border-2 border-gold-500 px-8 py-4 text-base font-semibold text-gold-600 transition-all duration-300 hover:bg-gold-50 hover:scale-105 hover:shadow-lg"
+            >
+              İletişime Geçin
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

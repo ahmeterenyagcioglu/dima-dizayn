@@ -1,9 +1,24 @@
+/**
+ * components/Footer.tsx — Alt Bilgi Bileşeni
+ *
+ * Üç katmandan oluşur:
+ *  1. Sosyal medya ikon linkleri
+ *  2. Adres ve telefon bilgileri
+ *  3. Telif hakkı satırı + versiyon numarası
+ *
+ * Sosyal medya linklerini veya iletişim bilgilerini güncellemek için
+ * aşağıdaki sabit değerleri ve socialLinks dizisini düzenle.
+ */
 'use client';
 
 import Link from 'next/link';
 import { Instagram, Youtube, Facebook } from 'lucide-react';
 
-/* TikTok ikonu - Lucide'da yok, inline SVG */
+/*
+  TikTok ikonu — Lucide React kütüphanesinde bulunmadığı için
+  marka SVG'si inline olarak tanımlanmıştır.
+  Gereksiz harici kütüphane (react-icons vb.) eklenmedi.
+*/
 function TikTokIcon({ className }: { className?: string }) {
   return (
     <svg
@@ -99,8 +114,11 @@ export default function Footer() {
             <p className="text-xs text-gray-500">
               &copy; {new Date().getFullYear()} Dima Dizayn & Organizasyon. T&uuml;m hakları saklıdır.
             </p>
+            <Link href="/kvkk" className="text-xs text-gray-400 hover:text-gold-600 transition-colors">
+              Gizlilik Politikası & KVKK
+            </Link>
             <p className="text-xs text-gray-500 font-mono">
-              v2026.02.24.01
+              v2026.04.08.9
             </p>
           </div>
         </div>

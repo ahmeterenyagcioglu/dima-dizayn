@@ -1,7 +1,19 @@
+/**
+ * components/GallerySection.tsx — Mini Galeri Bileşeni
+ *
+ * public/gallery/1.webp – 6.webp dosyalarını 2×3 grid'de gösterir.
+ * Her kart tıklandığında /galeri sayfasına yönlendirir.
+ *
+ * NOT: Bu bileşen şu an aktif olarak kullanılmıyor.
+ * Ana sayfadaki mini galeri (app/page.tsx) hash linkler ve overlay metni
+ * için bu bileşenden bağımsız olarak inline yazılmıştır.
+ * İleride tekrar ihtiyaç duyulursa buradan import edilebilir.
+ */
 'use client';
 
 import Link from 'next/link';
 
+/* Gösterilecek galeri görseli sayısı; 1.webp'ten başlayarak sıralıdır */
 const GALLERY_IDS = [1, 2, 3, 4, 5, 6];
 
 export default function GallerySection() {

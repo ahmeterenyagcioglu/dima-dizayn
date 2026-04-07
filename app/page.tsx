@@ -18,6 +18,17 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import TeklifAlButton from '@/components/TeklifAlButton';
+import InstagramFeed from '@/components/InstagramFeed';
+
+const MINI_GALLERY = [
+  { src: '/gallery/anasayfa/1.webp', alt: 'Kına Organizasyonu - Bergama Dima Dizayn', title: 'Kına Organizasyonu', href: '/galeri#kina' },
+  { src: '/gallery/anasayfa/2.webp', alt: 'Nişan Organizasyonu - Bergama Dima Dizayn', title: 'Nişan Organizasyonu', href: '/galeri#nisan' },
+  { src: '/gallery/anasayfa/3.webp', alt: 'Sünnet Organizasyonu - Bergama Dima Dizayn', title: 'Sünnet Organizasyonu', href: '/galeri#sunnet' },
+  { src: '/gallery/anasayfa/4.webp', alt: 'Düğün & Nikah Organizasyonu - Bergama Dima Dizayn', title: 'Düğün & Nikah Organizasyonu', href: '/galeri#dugun-nikah' },
+  { src: '/gallery/anasayfa/5.webp', alt: 'Müzik & Ses Sistemleri - Bergama Dima Dizayn', title: 'Müzik & Ses Sistemleri', href: '/galeri#muzik' },
+  { src: '/gallery/anasayfa/6.webp', alt: 'Fotoğraf & Video Çekimi - Bergama Dima Dizayn', title: 'Fotoğraf & Video Çekimi', href: '/galeri#fotograf-video' },
+];
 
 /*
   Duyuru bandında gösterilecek mesaj havuzu.
@@ -88,6 +99,9 @@ export default function HomePage() {
             <Link href="/galeri#kina" className="hover:text-gold-200 transition-colors duration-300">Kına</Link> ·{' '}
             <Link href="/galeri#sunnet" className="hover:text-gold-200 transition-colors duration-300">Sünnet</Link>
           </p>
+          <div className="mt-8">
+            <TeklifAlButton className="text-base px-8 py-4" />
+          </div>
         </div>
       </section>
 
@@ -235,6 +249,8 @@ export default function HomePage() {
         </div>
       </section>
 
+      <InstagramFeed />
+
       {/* Yeni Konseptlerimiz */}
       {(
           <section ref={yeniKonseptRef} className="relative overflow-hidden bg-gray-950 py-14 sm:py-20">
@@ -358,155 +374,28 @@ export default function HomePage() {
               Özel günlerinizdeki en güzel anları yakalıyoruz
             </p>
             <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 gap-4 w-full">
-              {/* İlk Foto - Kırmızı Taht */}
-              <div className="group relative overflow-hidden rounded-xl border border-gold-200/40 bg-dima-cream/50 shadow-md transition-all duration-300 hover:shadow-lg hover:border-gold-300/60 w-full">
-                <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
-                  <Image
-                    src="/gallery/anasayfa/1.webp"
-                    alt="Kına Organizasyonu - Bergama Dima Dizayn"
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw"
-                  />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-3 text-center">
-                  <p className="text-white text-sm font-medium">
-                    <span className="block">Kına Organizasyonu</span>
-                    <Link 
-                      href="/galeri#kina" 
-                      className="text-gold-300 hover:text-gold-200 transition-colors underline"
-                    >
-                      Detayları için tıklayın
-                    </Link>
-                  </p>
-                </div>
-              </div>
-
-              {/* İkinci Foto - Beyaz Çiçekli */}
-              <div className="group relative overflow-hidden rounded-xl border border-gold-200/40 bg-dima-cream/50 shadow-md transition-all duration-300 hover:shadow-lg hover:border-gold-300/60 w-full">
-                <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
-                  <Image
-                    src="/gallery/anasayfa/2.webp"
-                    alt="Nişan Organizasyonu - Bergama Dima Dizayn"
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw"
-                  />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-3 text-center">
-                  <p className="text-white text-sm font-medium">
-                    <span className="block">Nişan Organizasyonu</span>
-                    <Link 
-                      href="/galeri#nisan" 
-                      className="text-gold-300 hover:text-gold-200 transition-colors underline"
-                    >
-                      Detayları için tıklayın
-                    </Link>
-                  </p>
-                </div>
-              </div>
-
-              {/* Üçüncü Foto - Mavi-Sarı Balonlu */}
-              <div className="group relative overflow-hidden rounded-xl border border-gold-200/40 bg-dima-cream/50 shadow-md transition-all duration-300 hover:shadow-lg hover:border-gold-300/60 w-full">
-                <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
-                  <Image
-                    src="/gallery/anasayfa/3.webp"
-                    alt="Sünnet Organizasyonu - Bergama Dima Dizayn"
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw"
-                  />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-3 text-center">
-                  <p className="text-white text-sm font-medium">
-                    <span className="block">Sünnet Organizasyonu</span>
-                    <Link 
-                      href="/galeri#sunnet" 
-                      className="text-gold-300 hover:text-gold-200 transition-colors underline"
-                    >
-                      Detayları için tıklayın
-                    </Link>
-                  </p>
-                </div>
-              </div>
-
-              {/* Dördüncü Foto - Düğün Masası */}
-              <div className="group relative overflow-hidden rounded-xl border border-gold-200/40 bg-dima-cream/50 shadow-md transition-all duration-300 hover:shadow-lg hover:border-gold-300/60 w-full">
-                <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
-                  <Image
-                    src="/gallery/anasayfa/4.webp"
-                    alt="Düğün & Nikah Organizasyonu - Bergama Dima Dizayn"
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw"
-                  />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-3 text-center">
-                  <p className="text-white text-sm font-medium">
-                    <span className="block">Düğün & Nikah Organizasyonu</span>
-                    <Link 
-                      href="/galeri#dugun-nikah" 
-                      className="text-gold-300 hover:text-gold-200 transition-colors underline"
-                    >
-                      Detayları için tıklayın
-                    </Link>
-                  </p>
-                </div>
-              </div>
-
-              {/* Beşinci Foto - Müzik Sistemi */}
-              <div className="group relative overflow-hidden rounded-xl border border-gold-200/40 bg-dima-cream/50 shadow-md transition-all duration-300 hover:shadow-lg hover:border-gold-300/60 w-full">
-                <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
-                  <Image
-                    src="/gallery/anasayfa/5.webp"
-                    alt="Müzik & Ses Sistemleri - Bergama Dima Dizayn"
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw"
-                  />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-3 text-center">
-                  <p className="text-white text-sm font-medium">
-                    <span className="block">Müzik & Ses Sistemleri</span>
-                    <Link 
-                      href="/galeri#muzik" 
-                      className="text-gold-300 hover:text-gold-200 transition-colors underline"
-                    >
-                      Detayları için tıklayın
-                    </Link>
-                  </p>
-                </div>
-              </div>
-
-              {/* Altıncı Foto - Kameralar */}
-              <div className="group relative overflow-hidden rounded-xl border border-gold-200/40 bg-dima-cream/50 shadow-md transition-all duration-300 hover:shadow-lg hover:border-gold-300/60 w-full">
-                <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
-                  <Image
-                    src="/gallery/anasayfa/6.webp"
-                    alt="Fotoğraf & Video Çekimi - Bergama Dima Dizayn"
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw"
-                  />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-3 text-center">
-                  <p className="text-white text-sm font-medium">
-                    <span className="block">Fotoğraf & Video Çekimi</span>
-                    <Link 
-                      href="/galeri#fotograf-video" 
-                      className="text-gold-300 hover:text-gold-200 transition-colors underline"
-                    >
-                      Detayları için tıklayın
-                    </Link>
-                  </p>
-                </div>
-              </div>
+              {MINI_GALLERY.map((photo) => (
+                <Link
+                  key={photo.src}
+                  href={photo.href}
+                  className="group relative overflow-hidden rounded-xl border border-gold-200/40 bg-dima-cream/50 shadow-md transition-all duration-300 hover:shadow-lg hover:border-gold-300/60 w-full"
+                >
+                  <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
+                    <Image
+                      src={photo.src}
+                      alt={photo.alt}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw"
+                    />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-3 text-center">
+                    <span className="block text-white text-sm font-medium">{photo.title}</span>
+                    <span className="text-gold-300 text-xs">Detaylar için tıklayın</span>
+                  </div>
+                </Link>
+              ))}
             </div>
           </div>
         </div>
