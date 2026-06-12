@@ -8,16 +8,16 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 
 const RAW_COMMENTS = [
-  { name: 'Emine Ü.', comment: 'Hersey cok güzeldi hayalimdeki herseyi eksiksiz yaptıkları icin cok teşekkür ederim. Secil hanımın güler yüzü ve samimiyeti icin ayrica teşekkür ediyorum.' },
-  { name: 'Önder H.', comment: 'Çok memnun kaldık, güvenirlik ve kalite harikaydı,her zaman ilk seçeneğimiz oldunuz şimdiden teşekkürler.' },
-  { name: 'Egehan Ü.', comment: 'Ömer beye ilgisi alakası içşn teşekkür ediyoruz. Hayalimizdeki organizasyon ve müzik hizmetini bize sağladıkları için teşekkürler. Çok memnun kaldık tavsiye ederiz.' },
-  { name: 'Erbiy A.', comment: 'Yaptığınız organizasyon mükemmel ötesi emeğinize sağlık gelen misafirlerimizde ayriyetten teşekkür ediyor başarılarınızın devamını dilerim.' },
+  { name: 'Emine Ü.',  comment: 'Her şey çok güzeldi, hayalimdeki her şeyi eksiksiz yaptıkları için çok teşekkür ederim. Seçil Hanım\'ın güler yüzü ve samimiyeti için ayrıca teşekkür ediyorum.' },
+  { name: 'Önder H.',  comment: 'Çok memnun kaldık, güvenirlik ve kalite harikaydı — her zaman ilk seçeneğimiz oldunuz, şimdiden teşekkürler.' },
+  { name: 'Egehan Ü.', comment: 'Ömer Bey\'e ilgisi ve alakası için teşekkür ediyoruz. Hayalimizdeki organizasyon ve müzik hizmetini bize sağladıkları için çok memnun kaldık, tavsiye ederiz.' },
+  { name: 'Erbiy A.',  comment: 'Yaptığınız organizasyon mükemmel ötesi, emeğinize sağlık. Gelen misafirlerimiz de ayrıca teşekkür ediyor; başarılarınızın devamını dilerim.' },
   { name: 'Şevval D.', comment: 'Seçil Hanım bizimle çok iyi ilgilendi. Hayalimdeki konsepti hayata geçirdi. Her şey için teşekkür ederim.' },
-  { name: 'Gamze B.', comment: 'Tesekkür ederiz yaptığınız organizasyon muhteşemdi' },
-  { name: 'Mehtap S.', comment: 'Gercekten muhtesemsiniz🙏🙏 …' },
-  { name: 'Ayşe Ü.', comment: 'Tüm organizyonlarını çok beğeniyorum.Güler yüzlü hizmet ve anlayışlı tutumlularından dolayı çok teşekkür ederim.' },
-  { name: 'Dinçer A.', comment: 'Kaliteye ve güven e önem veriliyor teşekkürler iyi çalışmalar' },
-  { name: 'Hakan B.', comment: 'Herşey için çok teşekkür ederim güzel organizasyondu.' },
+  { name: 'Gamze B.',  comment: 'Teşekkür ederiz, yaptığınız organizasyon muhteşemdi!' },
+  { name: 'Mehtap S.', comment: 'Gerçekten muhteşemsiniz 🙏🙏' },
+  { name: 'Ayşe Ü.',   comment: 'Tüm organizasyonlarını çok beğeniyorum. Güler yüzlü hizmet ve anlayışlı tutumları için çok teşekkür ederim.' },
+  { name: 'Dinçer A.', comment: 'Kaliteye ve güvene önem veriliyor, teşekkürler, iyi çalışmalar.' },
+  { name: 'Hakan B.',  comment: 'Her şey için çok teşekkür ederim, güzel bir organizasyondu.' },
 ];
 
 export default function TestimonialsSlider() {

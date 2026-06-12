@@ -113,7 +113,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "LocalBusiness",
+              "@type": ["LocalBusiness", "EventPlanner"],
               "name": "Dima Dizayn & Organizasyon",
               "description": "Bergama kına gecesi, nişan, düğün ve sünnet organizasyonlarında eşsiz tasarımlar. Profesyonel ekibimizle hayalinizdeki organizasyonu gerçeğe dönüştürün.",
               "url": "https://dimadizayn.com",
@@ -139,7 +139,16 @@ export default function RootLayout({
                 "https://www.tiktok.com/@dimadizayn"
               ],
               "priceRange": "$$",
-              "servesCuisine": "Organizasyon Hizmetleri",
+              "hasOfferCatalog": {
+                "@type": "OfferCatalog",
+                "name": "Organizasyon Hizmetleri",
+                "itemListElement": [
+                  { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Düğün Organizasyonu" } },
+                  { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Nişan Organizasyonu" } },
+                  { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Kına Gecesi Organizasyonu" } },
+                  { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Sünnet Organizasyonu" } }
+                ]
+              },
               "image": "https://dimadizayn.com/gallery/assets/hero.webp",
               "aggregateRating": {
                 "@type": "AggregateRating",

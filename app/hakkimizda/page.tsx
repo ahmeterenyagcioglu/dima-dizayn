@@ -218,7 +218,7 @@ export default function HakkimizdaPage() {
       </section>
 
       {/* Müşterilerimizden Notlar */}
-      <section className="border-t border-gold-200/30 bg-white py-16 sm:py-20">
+      <section id="yorumlar" className="border-t border-gold-200/30 bg-white py-16 sm:py-20" style={{ scrollMarginTop: '80px' }}>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h2 className="font-serif text-3xl font-semibold text-center text-gray-800 sm:text-4xl">
             Müşterilerimizden Notlar

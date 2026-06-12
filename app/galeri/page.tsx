@@ -20,6 +20,7 @@ import Link from 'next/link';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import TeklifAlButton from '@/components/TeklifAlButton';
+import VideoSection from '@/components/VideoSection';
 
 /*
   Galeri veri kaynağı — tüm fotoğraflar burada tanımlanır.
@@ -99,6 +100,8 @@ const ALL_PHOTOS = [
   - limit  : Önizleme grid'inde kaç fotoğraf gösterileceği.
              Modal açıldığında bu limit geçersizdir; kategorinin tüm fotoğrafları gezilir.
 */
+const AYLIK_LIMIT = 6;
+
 const KATEGORILER = [
   { slug: 'yeni-konseptler', title: '✨ Yeni Konseptlerimiz', limit: 6 },
   { slug: 'kina', title: 'Kına', limit: 6 },
@@ -122,9 +125,12 @@ export default function GaleriPage() {
   const [selectedPhoto, setSelectedPhoto] = useState<{ slug: string; id: number } | null>(null);
   const [aktifKategori, setAktifKategori] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<'all' | 'konseptler' | 'hizmetler'>('all');
   const [expandedSlugs, setExpandedSlugs] = useState<Set<string>>(new Set());
   const [shuffledPhotosByCategory, setShuffledPhotosByCategory] = useState<{ [key: string]: { slug: string; id: number }[] }>({});
+  const [recentBaslik, setRecentBaslik] = useState<string | null>(null);
+  const [shuffledAylikFotolar, setShuffledAylikFotolar] = useState<{ slug: string; id: number }[]>([]);
+  const [aylikExpanded, setAylikExpanded] = useState(false);
+  const [modalPhotos, setModalPhotos] = useState<{ slug: string; id: number }[] | null>(null);
 
   // URL hash takip sistemi
   useEffect(() => {
@@ -179,7 +185,19 @@ export default function GaleriPage() {
     });
     
     setShuffledPhotosByCategory(result);
-  }, []); // Boş dependency array - sadece sayfa ilk yüklendiğinde çalışırılmış)
+  }, []);
+
+  useEffect(() => {
+    fetch('/api/aylik')
+      .then(r => r.json())
+      .then(data => {
+        if (data.recent && data.recent.photos.length > 0) {
+          setRecentBaslik(data.recent.baslik);
+          setShuffledAylikFotolar([...data.recent.photos].sort(() => Math.random() - 0.5));
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const getKategoriFotolari = (slug: string, limit: number) => {
     const shuffled = shuffledPhotosByCategory[slug] || [];
@@ -194,26 +212,11 @@ export default function GaleriPage() {
     });
   };
 
-  // Tab'e göre kategorileri filtrele
-  const getFilteredCategories = () => {
-    if (activeTab === 'all') return KATEGORILER;
-    if (activeTab === 'konseptler') {
-      return KATEGORILER.filter(k =>
-        k.slug.includes('kina') || k.slug.includes('nisan') || k.slug.includes('dugun') || k.slug.includes('sunnet') || k.slug.includes('dogum') || k.slug.includes('yeni-konseptler')
-      );
-    }
-    if (activeTab === 'hizmetler') {
-      return KATEGORILER.filter(k =>
-        !k.slug.includes('kina') && !k.slug.includes('nisan') && !k.slug.includes('dugun') && !k.slug.includes('sunnet') && !k.slug.includes('dogum') && !k.slug.includes('yeni-konseptler')
-      );
-    }
-    return KATEGORILER;
-  };
-
   // Modal aç — tıklanan fotoğrafın slug ve id'sini state'e yaz
-  const openModal = (slug: string, id: number) => {
+  const openModal = (slug: string, id: number, customPhotos?: { slug: string; id: number }[]) => {
     setSelectedPhoto({ slug, id });
-    setAktifKategori(slug);
+    setAktifKategori(customPhotos ? null : slug);
+    setModalPhotos(customPhotos || null);
     setModalOpen(true);
   };
 
@@ -225,6 +228,7 @@ export default function GaleriPage() {
   const closeModal = useCallback(() => {
     setSelectedPhoto(null);
     setAktifKategori(null);
+    setModalPhotos(null);
     setModalOpen(false);
   }, []);
 
@@ -234,18 +238,20 @@ export default function GaleriPage() {
     Bu sayede klavye useEffect doğru bağımlılık listesiyle çalışır.
   */
   const navigatePhoto = useCallback((direction: number) => {
-    if (!selectedPhoto || !aktifKategori) return;
+    if (!selectedPhoto) return;
 
-    const kategoriFotolari = shuffledPhotosByCategory[aktifKategori] || [];
-    const mevcutIndex = kategoriFotolari.findIndex(
+    const photos = modalPhotos ?? (aktifKategori ? shuffledPhotosByCategory[aktifKategori] ?? [] : []);
+    if (photos.length === 0) return;
+
+    const mevcutIndex = photos.findIndex(
       (foto) => foto.slug === selectedPhoto.slug && foto.id === selectedPhoto.id
     );
 
     const newIndex = mevcutIndex + direction;
-    if (newIndex >= 0 && newIndex < kategoriFotolari.length) {
-      setSelectedPhoto(kategoriFotolari[newIndex]);
+    if (newIndex >= 0 && newIndex < photos.length) {
+      setSelectedPhoto(photos[newIndex]);
     }
-  }, [selectedPhoto, aktifKategori, shuffledPhotosByCategory]);
+  }, [selectedPhoto, aktifKategori, shuffledPhotosByCategory, modalPhotos]);
 
   /*
     Klavye kontrolleri: Esc (kapat), ← (önceki), → (sonraki).
@@ -269,58 +275,109 @@ export default function GaleriPage() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [modalOpen, navigatePhoto, closeModal]);
 
+  const gorunenAylikFotolar = aylikExpanded
+    ? shuffledAylikFotolar
+    : shuffledAylikFotolar.slice(0, AYLIK_LIMIT);
+
   return (
     <div className="min-h-screen bg-dima-cream/50">
-      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-5 sm:py-14 md:px-6 md:py-16 lg:px-8">
-        {/* Ana Başlık */}
-        <div className="text-center mb-8">
-          <h1 className="font-serif text-4xl font-semibold text-gray-800 text-center sm:text-5xl md:text-6xl">
-            Galeri
-          </h1>
-          <p className="mt-4 text-lg text-dima-grey max-w-2xl mx-auto">
-            Özel anlarınızdan seçkin kareler
-          </p>
-        </div>
-
-        {/* Modern Tab Sistemi */}
-        <div className="flex justify-center mb-12">
-          <div className="inline-flex bg-white rounded-lg shadow-sm border border-gray-200 p-1">
-            <button
-              onClick={() => setActiveTab('all')}
-              className={`px-6 py-3 rounded-md font-medium text-sm transition-all duration-200 ${
-                activeTab === 'all'
-                  ? 'bg-gold-500 text-white shadow-md'
-                  : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
-              }`}
-            >
-              Tüm Kareler
-            </button>
-            <button
-              onClick={() => setActiveTab('konseptler')}
-              className={`px-6 py-3 rounded-md font-medium text-sm transition-all duration-200 ${
-                activeTab === 'konseptler'
-                  ? 'bg-gold-500 text-white shadow-md'
-                  : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
-              }`}
-            >
-              Konsept Kurulumları
-            </button>
-            <button
-              onClick={() => setActiveTab('hizmetler')}
-              className={`px-6 py-3 rounded-md font-medium text-sm transition-all duration-200 ${
-                activeTab === 'hizmetler'
-                  ? 'bg-gold-500 text-white shadow-md'
-                  : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
-              }`}
-            >
-              Ek Hizmetlerimiz
-            </button>
+      {/* Hero */}
+      <section className="relative h-[30vh] w-full overflow-hidden">
+        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/gallery/assets/gallery-hero.webp')" }} />
+        <div className="absolute inset-0 bg-black/55" />
+        <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-400 to-transparent opacity-80" />
+        <div className="relative z-10 flex h-full items-center justify-center">
+          <div className="text-center px-4">
+            <h1 className="font-serif text-4xl font-light text-white drop-shadow-lg sm:text-5xl md:text-6xl lg:text-7xl">
+              Galeri
+            </h1>
+            <p className="mt-4 text-sm font-medium uppercase tracking-[0.3em] text-gold-300/90 sm:text-base">
+              Özel anlarınızdan seçkin kareler
+            </p>
           </div>
         </div>
+      </section>
 
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-5 sm:py-14 md:px-6 md:py-16 lg:px-8">
+
+        {/* Son Çalışmalar */}
+        {recentBaslik && shuffledAylikFotolar.length > 0 && (
+          <div id="son-calismalar" className="-mb-2" style={{ scrollMarginTop: '130px' }}>
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <span className="inline-flex items-center gap-2 rounded-full border border-gold-400/40 bg-gold-400/10 px-3 py-1 text-xs font-bold uppercase tracking-widest text-gold-600">
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold-400 opacity-75" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-gold-400" />
+                  </span>
+                  Yeni
+                </span>
+                <h2 className="font-serif text-2xl font-semibold text-gray-800 sm:text-3xl">
+                  {recentBaslik}
+                </h2>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 md:gap-4">
+              {gorunenAylikFotolar.map(({ slug: s, id }) => (
+                <button
+                  key={`${s}-${id}`}
+                  type="button"
+                  onClick={() => openModal(s, id, shuffledAylikFotolar)}
+                  className="group relative aspect-[4/3] overflow-hidden rounded-lg border border-gold-200/40 bg-gray-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 sm:rounded-xl sm:shadow-md"
+                  aria-label={`${recentBaslik} - fotoğraf ${id}`}
+                >
+                  <div
+                    className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-300 ease-out group-hover:scale-110"
+                    style={{ backgroundImage: `url('${getImageUrl(s, id)}')` }}
+                  />
+                </button>
+              ))}
+            </div>
+            {shuffledAylikFotolar.length > AYLIK_LIMIT && (
+              <div className="mt-4 text-center">
+                <button
+                  type="button"
+                  onClick={() => setAylikExpanded(prev => !prev)}
+                  className="inline-flex items-center gap-2 rounded-full border border-gold-400 px-6 py-2 text-sm font-medium text-gold-600 transition-all duration-300 hover:bg-gold-50 hover:scale-105"
+                >
+                  {aylikExpanded
+                    ? 'Daha az göster'
+                    : `Tümünü Göster (${shuffledAylikFotolar.length})`}
+                </button>
+              </div>
+            )}
+            <div className="mt-6 border-b border-gold-200/30" />
+          </div>
+        )}
+
+        {/* Arşiv Kartı */}
+        <Link
+          href="/galeri/arsiv"
+          className="group mb-8 mt-6 flex items-center justify-between gap-4 rounded-2xl border border-gold-200/60 bg-white px-6 py-5 shadow-sm transition-all duration-300 hover:border-gold-400/60 hover:shadow-md"
+        >
+          <div className="flex items-center gap-4">
+            <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-gold-50 text-2xl transition-colors duration-300 group-hover:bg-gold-100">
+              🗂️
+            </div>
+            <div>
+              <p className="font-semibold text-gray-800 group-hover:text-gold-700 transition-colors">Geçmiş Çalışmalarımız</p>
+              <p className="text-sm text-gray-500">Tüm aylık arşivimize göz atın</p>
+            </div>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 flex-shrink-0 text-gold-500 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </Link>
+
+      </div>
+
+      {/* Video Bölümü */}
+      <VideoSection />
+
+      <div className="mx-auto max-w-7xl px-4 pb-10 sm:px-5 sm:pb-14 md:px-6 md:pb-16 lg:px-8">
         {/* Kategori Grid */}
         <div className="grid gap-8 sm:gap-10 md:gap-12">
-          {getFilteredCategories().map(({ slug, title, limit }) => {
+          {KATEGORILER.map(({ slug, title, limit }) => {
             const tumFotolar = shuffledPhotosByCategory[slug] || [];
             const fotolar = getKategoriFotolari(slug, limit);
             if (fotolar.length === 0) return null;
@@ -426,7 +483,7 @@ export default function GaleriPage() {
             >
               <img
                 src={getImageUrl(selectedPhoto.slug, selectedPhoto.id)}
-                alt="Galeri görseli"
+                alt={`${KATEGORILER.find(k => selectedPhoto.slug.includes(k.slug))?.title ?? 'Organizasyon'} - Dima Dizayn Bergama`}
                 style={{ width: '100%', height: '100%', objectFit: 'contain' }}
               />
             </motion.div>

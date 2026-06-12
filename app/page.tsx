@@ -21,6 +21,17 @@ import { motion, useInView } from 'framer-motion';
 import TeklifAlButton from '@/components/TeklifAlButton';
 import InstagramFeed from '@/components/InstagramFeed';
 
+const YORUMLAR = [
+  { name: 'Emine Ü.',   comment: 'Herşey çok güzeldi, hayalimdeki her şeyi eksiksiz yaptıkları için çok teşekkür ederim. Seçil hanımın güler yüzü ve samimiyeti için ayrıca teşekkür ediyorum.' },
+  { name: 'Önder H.',   comment: 'Çok memnun kaldık, güvenirlik ve kalite harikaydı — her zaman ilk seçeneğimiz oldunuz, şimdiden teşekkürler.' },
+  { name: 'Egehan Ü.',  comment: 'Ömer beye ilgisi ve alakası için teşekkür ediyoruz. Hayalimizdeki organizasyon ve müzik hizmetini bize sağladıkları için çok memnun kaldık, tavsiye ederiz.' },
+  { name: 'Erbiy A.',   comment: 'Yaptığınız organizasyon mükemmel ötesi, emeğinize sağlık. Gelen misafirlerimiz de ayrıca teşekkür ediyor, başarılarınızın devamını dilerim.' },
+  { name: 'Şevval D.',  comment: 'Seçil Hanım bizimle çok iyi ilgilendi. Hayalimdeki konsepti hayata geçirdi. Her şey için teşekkür ederim.' },
+  { name: 'Ayşe Ü.',    comment: 'Tüm organizasyonlarını çok beğeniyorum. Güler yüzlü hizmet ve anlayışlı tutumları için çok teşekkür ederim.' },
+  { name: 'Hakan B.',   comment: 'Her şey için çok teşekkür ederim, güzel bir organizasyondu.' },
+  { name: 'Dinçer A.',  comment: 'Kaliteye ve güvene önem veriliyor, teşekkürler, iyi çalışmalar.' },
+];
+
 const MINI_GALLERY = [
   { src: '/gallery/anasayfa/1.webp', alt: 'Kına Organizasyonu - Bergama Dima Dizayn', title: 'Kına Organizasyonu', href: '/galeri#kina' },
   { src: '/gallery/anasayfa/2.webp', alt: 'Nişan Organizasyonu - Bergama Dima Dizayn', title: 'Nişan Organizasyonu', href: '/galeri#nisan' },
@@ -45,6 +56,8 @@ const ANNOUNCEMENT_MESSAGES = [
 export default function HomePage() {
   const [announcementMessage, setAnnouncementMessage] = useState('');
   const [yeniKonseptFotolar, setYeniKonseptFotolar] = useState<number[]>([1, 2, 5]);
+  const [recentVeri, setRecentVeri] = useState<{ baslik: string; photos: { slug: string; id: number }[] } | null>(null);
+  const [gosterilecekYorumlar, setGosterilecekYorumlar] = useState(YORUMLAR.slice(0, 3));
   const yeniKonseptRef = useRef(null);
   const yeniKonseptInView = useInView(yeniKonseptRef, { once: true, margin: '-80px' });
 
@@ -52,10 +65,17 @@ export default function HomePage() {
     const randomIndex = Math.floor(Math.random() * ANNOUNCEMENT_MESSAGES.length);
     setAnnouncementMessage(ANNOUNCEMENT_MESSAGES[randomIndex]);
 
+    setGosterilecekYorumlar([...YORUMLAR].sort(() => Math.random() - 0.5).slice(0, 3));
+
     // 1-8 arasından rastgele 3 farklı fotoğraf seç
     const tumFotolar = [1, 2, 3, 4, 5, 6, 7, 8];
     const karisik = [...tumFotolar].sort(() => Math.random() - 0.5);
     setYeniKonseptFotolar(karisik.slice(0, 3));
+
+    fetch('/api/aylik')
+      .then(r => r.json())
+      .then(data => { if (data.recent?.photos?.length) setRecentVeri(data.recent); })
+      .catch(() => {});
   }, []);
 
   return (
@@ -108,9 +128,25 @@ export default function HomePage() {
       {/* Duyuru Bandı */}
       <section className="relative bg-gradient-to-r from-gold-50/90 via-gold-100/95 to-gold-50/90 backdrop-blur-sm border-y border-gold-200/30">
         <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-center gap-3 text-center">
-            <span className="text-2xl">🗓️</span>
+          <div className="flex flex-col items-center gap-3 text-center sm:flex-row sm:justify-center sm:gap-6">
+            {recentVeri && recentVeri.photos.length > 0 && (
+              <>
+                <Link
+                  href="/galeri#son-calismalar"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-gold-500 px-3 py-1 text-xs font-semibold text-white shadow-sm transition-all duration-200 hover:bg-gold-600 hover:shadow-md sm:px-4 sm:py-1.5 sm:text-sm sm:whitespace-nowrap"
+                >
+                  <span className="relative flex h-2 w-2 flex-shrink-0">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
+                  </span>
+                  <span className="sm:hidden">📸 {recentVeri.baslik}</span>
+                  <span className="hidden sm:inline">📸 {recentVeri.baslik} — Yeni çalışmalarımız!</span>
+                </Link>
+                <span className="hidden text-gold-300 sm:block">|</span>
+              </>
+            )}
             <p className="text-sm font-medium text-gray-800 sm:text-base">
+              <span className="mr-1">🗓️</span>
               {announcementMessage}{' '}Hayalinizdeki organizasyon için{' '}
               <a
                 href="https://wa.me/905353679931?text=Merhaba%20Dima%20Dizayn,%202026%20sezonu%20i%C3%A7in%20rezervasyonu%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum."
@@ -245,6 +281,60 @@ export default function HomePage() {
                 <span className="font-semibold">Bergama</span> başta olmak üzere <span className="font-semibold">Dikili</span>, <span className="font-semibold">Kınık</span>, <span className="font-semibold">Kozak Yaylası</span>, <span className="font-semibold">Soma</span>, <span className="font-semibold">Manisa</span>, <span className="font-semibold">Ege Bölgesi</span> ve <span className="font-semibold">Akhisar</span> gibi çevre ilçeler ve bölgelerde de yanınızdayız. İzmir ve Manisa'nın her köşesinde; <span className="font-semibold">düğün</span>, <span className="font-semibold">nişan</span> ve <span className="font-semibold">sünnet</span> organizasyonlarınız için profesyonel ekipmanlarımız ve özgün konseptlerimizle hayallerinizi gerçeğe dönüştürüyoruz. Bölgeyi tanıyan, çevre ilçelere hakim tecrübemizle en özel günlerinizi kusursuz kılıyoruz.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Müşteri Yorumları Teaser */}
+      <section className="border-t border-gold-200/30 bg-white py-12 sm:py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-8 flex items-end justify-between">
+            <div>
+              <h2 className="font-serif text-2xl font-semibold text-gray-800 sm:text-3xl">
+                Müşterilerimiz Ne Diyor?
+              </h2>
+              <p className="mt-2 text-sm text-dima-grey">Gerçek deneyimler, gerçek mutluluklar</p>
+            </div>
+            <Link
+              href="/hakkimizda#yorumlar"
+              className="hidden sm:inline-flex items-center gap-1 text-sm font-medium text-gold-600 hover:text-gold-700 transition-colors"
+            >
+              Tüm yorumlar
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-3">
+            {gosterilecekYorumlar.map((yorum, i) => (
+              <div key={i} className="flex flex-col gap-3 rounded-xl border border-gold-200/40 bg-dima-cream/50 p-5 shadow-sm">
+                <div className="flex gap-0.5">
+                  {[...Array(5)].map((_, s) => (
+                    <svg key={s} className="h-4 w-4 fill-gold-400 text-gold-400" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <p className="flex-1 text-sm leading-relaxed text-gray-600">"{yorum.comment}"</p>
+                <div className="flex items-center gap-2">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gold-100 text-sm font-semibold text-gold-700">
+                    {yorum.name.charAt(0)}
+                  </div>
+                  <span className="text-sm font-medium text-gray-800">{yorum.name}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-6 text-center sm:hidden">
+            <Link
+              href="/hakkimizda#yorumlar"
+              className="inline-flex items-center gap-1 text-sm font-medium text-gold-600 hover:text-gold-700 transition-colors"
+            >
+              Tüm yorumları gör
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
           </div>
         </div>
       </section>
@@ -400,6 +490,65 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Son Çalışmalarımız Teaser */}
+      {recentVeri && recentVeri.photos.length > 0 && (
+        <section className="border-t border-gold-200/30 bg-white py-12 sm:py-16">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <span className="inline-flex items-center gap-2 rounded-full border border-gold-400/40 bg-gold-400/10 px-3 py-1 text-xs font-bold uppercase tracking-widest text-gold-600">
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold-400 opacity-75" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-gold-400" />
+                  </span>
+                  Yeni
+                </span>
+                <h2 className="font-serif text-2xl font-semibold text-gray-800">
+                  {recentVeri.baslik}
+                </h2>
+              </div>
+              <Link
+                href="/galeri/arsiv"
+                className="hidden sm:flex items-center gap-1 text-sm font-medium text-gold-600 hover:text-gold-700 transition-colors"
+              >
+                Tümünü gör
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+              {recentVeri.photos.slice(0, 3).map(({ slug, id }, idx) => (
+                <Link
+                  key={`${slug}-${id}`}
+                  href="/galeri/arsiv"
+                  className={`group relative block aspect-[4/3] overflow-hidden rounded-xl border border-gold-200/40 bg-gray-200 shadow-sm${idx === 2 ? ' hidden sm:block' : ''}`}
+                >
+                  <Image
+                    src={`/gallery/${slug}/${id}.webp`}
+                    alt={`${recentVeri.baslik} - Dima Dizayn`}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    sizes="(max-width: 768px) 33vw, 25vw"
+                  />
+                </Link>
+              ))}
+            </div>
+            <div className="mt-6 sm:hidden text-center">
+              <Link
+                href="/galeri/arsiv"
+                className="inline-flex items-center gap-1 text-sm font-medium text-gold-600 hover:text-gold-700 transition-colors"
+              >
+                Tümünü gör
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Konum */}
       <section id="konum" className="border-t border-gold-200/30 bg-dima-cream/50 py-12 sm:py-16">

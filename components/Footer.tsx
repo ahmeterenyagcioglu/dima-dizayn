@@ -118,7 +118,7 @@ export default function Footer() {
               Gizlilik Politikası & KVKK
             </Link>
             <p className="text-xs text-gray-500 font-mono">
-              v2026.04.08.9
+              v2026.06.13.2
             </p>
           </div>
         </div>

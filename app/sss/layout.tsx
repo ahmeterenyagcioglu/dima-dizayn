@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Sık Sorulan Sorular | Dima Dizayn & Organizasyon',
-  description: 'Bergama organizasyon hizmetleri hakkında sık sorulan sorular: rezervasyon, fiyat, bölgeler, ödeme ve daha fazlası.',
+  title: 'Sık Sorulan Sorular | Dima Dizayn Bergama Organizasyon',
+  description: 'Rezervasyon, fiyat, hizmet kapsamı, bölgeler ve ödeme hakkında merak edilenlerin yanıtları. Bergama organizasyon sürecini adım adım öğrenin.',
+  keywords: 'bergama organizasyon sss, dima dizayn sık sorulan sorular, bergama düğün rezervasyon, bergama organizasyon fiyat',
   robots: { index: true, follow: true },
 };
 
