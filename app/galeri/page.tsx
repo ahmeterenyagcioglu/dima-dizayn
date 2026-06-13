@@ -31,26 +31,28 @@ import VideoSection from '@/components/VideoSection';
   Dosyanın gerçekten public/gallery/<slug>/<id>.webp konumunda olduğundan emin ol.
 */
 const ALL_PHOTOS = [
-  // Kına fotoğrafları (18 adet)
+  // Kına fotoğrafları (21 adet)
   { slug: 'kina', id: 1 }, { slug: 'kina', id: 2 }, { slug: 'kina', id: 3 },
   { slug: 'kina', id: 4 }, { slug: 'kina', id: 5 }, { slug: 'kina', id: 6 }, { slug: 'kina', id: 7 }, { slug: 'kina', id: 8 }, { slug: 'kina', id: 9 },
   { slug: 'kina', id: 10 }, { slug: 'kina', id: 11 }, { slug: 'kina', id: 12 }, { slug: 'kina', id: 13 }, { slug: 'kina', id: 14 }, { slug: 'kina', id: 15 },
   { slug: 'kina', id: 16 }, { slug: 'kina', id: 17 }, { slug: 'kina', id: 18 },
+  { slug: 'kina', id: 19 }, { slug: 'kina', id: 20 }, { slug: 'kina', id: 21 },
   
-  // Nişan fotoğrafları (19 adet)
+  // Nişan fotoğrafları (20 adet)
   { slug: 'nisan', id: 1 }, { slug: 'nisan', id: 2 }, { slug: 'nisan', id: 3 },
   { slug: 'nisan', id: 4 }, { slug: 'nisan', id: 5 }, { slug: 'nisan', id: 6 },
   { slug: 'nisan', id: 7 }, { slug: 'nisan', id: 8 }, { slug: 'nisan', id: 9 },
   { slug: 'nisan', id: 10 }, { slug: 'nisan', id: 11 }, { slug: 'nisan', id: 12 },
   { slug: 'nisan', id: 13 }, { slug: 'nisan', id: 14 }, { slug: 'nisan', id: 15 },
   { slug: 'nisan', id: 16 }, { slug: 'nisan', id: 17 }, { slug: 'nisan', id: 18 },
-  { slug: 'nisan', id: 19 }, 
+  { slug: 'nisan', id: 19 }, { slug: 'nisan', id: 20 },
 
-  // Düğün & Nikah fotoğrafları (13 adet)
+  // Düğün & Nikah fotoğrafları (15 adet)
   { slug: 'dugun-nikah', id: 1 }, { slug: 'dugun-nikah', id: 2 }, { slug: 'dugun-nikah', id: 3 },
   { slug: 'dugun-nikah', id: 4 }, { slug: 'dugun-nikah', id: 5 }, { slug: 'dugun-nikah', id: 6 },
   { slug: 'dugun-nikah', id: 7 }, { slug: 'dugun-nikah', id: 8 }, { slug: 'dugun-nikah', id: 9 },
-  { slug: 'dugun-nikah', id: 10 }, { slug: 'dugun-nikah', id: 11 }, { slug: 'dugun-nikah', id: 12 }, { slug: 'dugun-nikah', id: 13 },
+  { slug: 'dugun-nikah', id: 10 }, { slug: 'dugun-nikah', id: 11 }, { slug: 'dugun-nikah', id: 12 },
+  { slug: 'dugun-nikah', id: 13 }, { slug: 'dugun-nikah', id: 14 }, { slug: 'dugun-nikah', id: 15 },
   
   // Sünnet fotoğrafları (17 adet)
   { slug: 'sunnet', id: 1 }, { slug: 'sunnet', id: 2 }, { slug: 'sunnet', id: 3 },
@@ -60,28 +62,30 @@ const ALL_PHOTOS = [
   { slug: 'sunnet', id: 13 }, { slug: 'sunnet', id: 14 }, { slug: 'sunnet', id: 15 },
   { slug: 'sunnet', id: 16 }, { slug: 'sunnet', id: 17 },
   
-  // Doğum Günü fotoğrafları (10 adet)
+  // Doğum Günü fotoğrafları (11 adet)
   { slug: 'dogum-gunu', id: 1 }, { slug: 'dogum-gunu', id: 2 }, { slug: 'dogum-gunu', id: 3 },
   { slug: 'dogum-gunu', id: 4 }, { slug: 'dogum-gunu', id: 5 }, { slug: 'dogum-gunu', id: 6 },
   { slug: 'dogum-gunu', id: 7 }, { slug: 'dogum-gunu', id: 8 }, { slug: 'dogum-gunu', id: 9 },
-  { slug: 'dogum-gunu', id: 10 },
+  { slug: 'dogum-gunu', id: 10 }, { slug: 'dogum-gunu', id: 11 },
   
   // Fotoğraf & Video fotoğrafları (4 adet)
   { slug: 'fotograf-video', id: 1 }, { slug: 'fotograf-video', id: 2 }, { slug: 'fotograf-video', id: 3 }, { slug: 'fotograf-video', id: 4 },
   
-  // Müzik fotoğrafları (9 adet)
+  // Müzik fotoğrafları (10 adet)
   { slug: 'muzik', id: 1 }, { slug: 'muzik', id: 2 }, { slug: 'muzik', id: 3 },
-  { slug: 'muzik', id: 4 }, { slug: 'muzik', id: 5 }, { slug: 'muzik', id: 6 }, { slug: 'muzik', id: 7 }, { slug: 'muzik', id: 8 }, { slug: 'muzik', id: 9 },
+  { slug: 'muzik', id: 4 }, { slug: 'muzik', id: 5 }, { slug: 'muzik', id: 6 },
+  { slug: 'muzik', id: 7 }, { slug: 'muzik', id: 8 }, { slug: 'muzik', id: 9 }, { slug: 'muzik', id: 10 },
   
   // Işıklandırma fotoğrafları (9 adet)
   { slug: 'isiklandirma', id: 1 }, { slug: 'isiklandirma', id: 2 }, { slug: 'isiklandirma', id: 3 },
   { slug: 'isiklandirma', id: 4 }, { slug: 'isiklandirma', id: 5 }, { slug: 'isiklandirma', id: 6 }, { slug: 'isiklandirma', id: 7 }, { slug: 'isiklandirma', id: 8 },
   { slug: 'isiklandirma', id: 9 },
   
-  // Diğer Hizmetler fotoğrafları (9 adet)
+  // Diğer Hizmetler fotoğrafları (12 adet)
   { slug: 'diger-hizmetler', id: 1 }, { slug: 'diger-hizmetler', id: 2 }, { slug: 'diger-hizmetler', id: 3 },
   { slug: 'diger-hizmetler', id: 4 }, { slug: 'diger-hizmetler', id: 5 }, { slug: 'diger-hizmetler', id: 6 },
   { slug: 'diger-hizmetler', id: 7 }, { slug: 'diger-hizmetler', id: 8 }, { slug: 'diger-hizmetler', id: 9 },
+  { slug: 'diger-hizmetler', id: 10 }, { slug: 'diger-hizmetler', id: 11 }, { slug: 'diger-hizmetler', id: 12 },
 
   // Yeni Konseptler (8 adet)
   { slug: 'yeni-konseptler', id: 1 }, { slug: 'yeni-konseptler', id: 2 }, { slug: 'yeni-konseptler', id: 3 },
